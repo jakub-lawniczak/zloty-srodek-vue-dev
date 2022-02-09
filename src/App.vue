@@ -1,7 +1,9 @@
 <template>
     <div id="app">
-        <Nav />
-        <router-view />
+        <div class="container">
+            <Nav />
+            <router-view />
+        </div>
     </div>
 </template>
 
@@ -17,35 +19,25 @@ export default {
     },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 #app {
+    min-height: 100vh;
+    background-color: #ffba15;
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-align: center;
+    // text-align: center;
     color: #2c3e50;
+}
+.container {
     background-color: #fff;
-    height: calc(100vh - 6rem);
-    width: calc(100vw - 6rem);
-    margin: 3rem;
+    width: 85%;
+    min-height: calc(100vh - 12rem);
+    margin: 3rem auto;
     border-radius: 3rem;
 }
 
-#nav {
-    padding: 30px;
-}
-
-#nav a {
-    font-weight: bold;
-    color: #2c3e50;
-    text-decoration: none;
-}
-
-#nav a.router-link-exact-active {
-    color: #ffba15;
-}
-
-input {
-    margin-right: 20px;
-}
+// input {
+//     margin-right: 20px;
+// }
 </style>

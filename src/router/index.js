@@ -32,6 +32,24 @@ const routes = [
             authRequired: true,
         },
     },
+    // {
+    //     path: '/first-raport',
+    //     name: 'FirstRaport',
+    //     component: () =>
+    //         import(/* webpackChunkName: "Panel" */ '../views/FirstRaport.vue'),
+    //     meta: {
+    //         authRequired: true,
+    //     },
+    // },
+    {
+        path: '/raport',
+        name: 'Raport',
+        component: () =>
+            import(/* webpackChunkName: "Panel" */ '../views/Raport.vue'),
+        meta: {
+            authRequired: true,
+        },
+    },
 ];
 
 const router = new VueRouter({

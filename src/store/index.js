@@ -12,6 +12,10 @@ const store = new Vuex.Store({
     plugins: [vuexLocal.plugin],
     state: {
         auth: null,
+        user: {
+            firstName: '',
+            lastName: '',
+        },
     },
     mutations: {
         setAuth(state, auth) {

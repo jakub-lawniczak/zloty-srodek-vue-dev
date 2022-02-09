@@ -1,8 +1,9 @@
 <template>
-    <div id="nav">
+    <div id="nav" class="nav">
         <router-link v-if="!ifAuth" to="/">Login</router-link>
-        <router-link v-else to="/panel">Panel</router-link> |
-        <router-link to="/register">Register</router-link>
+        <router-link v-if="!ifAuth" to="/register">Register</router-link>
+        <router-link v-if="ifAuth" to="/panel">Panel</router-link>
+        <router-link v-if="ifAuth" to="/raport">Raport</router-link>
         <Btn v-if="ifAuth" @click.native="logout" text="Logout" :full="true" />
     </div>
 </template>
@@ -37,4 +38,22 @@ export default {
     },
 };
 </script>
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    a {
+        font-size: 1.6rem;
+        font-weight: bold;
+        color: #2c3e50;
+        text-decoration: none;
+        margin: 0 1rem;
+    }
+
+    a.router-link-exact-active {
+        color: #ffba15;
+    }
+}
+</style>

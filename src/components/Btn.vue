@@ -31,7 +31,7 @@ export default {
     color: #ffba15;
     border: 1px solid #ffba15;
     border-radius: 1.5rem;
-    padding: 0.5rem 1rem;
+    padding: 0.8446rem 1.5rem;
     letter-spacing: 0.05rem;
     // box-sizing: content-box;
     transition: all 0.3s;
