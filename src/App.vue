@@ -1,7 +1,7 @@
 <template>
     <div id="app">
+        <Nav />
         <div class="container">
-            <Nav />
             <router-view />
         </div>
     </div>
@@ -19,7 +19,7 @@ export default {
     },
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 #app {
     min-height: 100vh;
     background-color: #ffba15;
@@ -33,7 +33,9 @@ export default {
     background-color: #fff;
     width: 85%;
     min-height: calc(100vh - 12rem);
-    margin: 3rem auto;
+    margin: 0 auto;
+    padding: 2rem 3rem 3rem;
+    margin-top: 3rem;
     border-radius: 3rem;
 }
 

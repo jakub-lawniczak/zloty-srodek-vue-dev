@@ -41,9 +41,11 @@ export default {
 <style lang="scss" scoped>
 .nav {
     display: flex;
-    justify-content: center;
+    // justify-content: center;
     align-items: center;
-    padding: 30px;
+    padding: 2rem;
+    background-color: #fff;
+
     a {
         font-size: 1.6rem;
         font-weight: bold;

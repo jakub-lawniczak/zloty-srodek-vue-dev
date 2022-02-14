@@ -56,6 +56,8 @@ export default {
     &__title {
         font-size: 2rem;
         margin: 2rem;
+        margin-bottom: 5rem;
+        text-align: center;
     }
     &__form {
         display: flex;
@@ -71,8 +73,8 @@ export default {
         border: 0;
         outline: none;
         background-color: #f1f1f1;
-        padding: 0.5rem 1rem;
-        font-size: 1.4rem;
+        padding: 0.75rem 1.5rem;
+        font-size: 1.8rem;
         max-width: 80%;
         min-height: 100%;
         margin: 0 auto 1.6rem;

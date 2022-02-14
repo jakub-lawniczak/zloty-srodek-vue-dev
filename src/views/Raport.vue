@@ -29,6 +29,7 @@ export default {
     &__title {
         font-size: 2rem;
         margin: 2rem;
+        margin-bottom: 5rem;
         text-align: center;
     }
 }

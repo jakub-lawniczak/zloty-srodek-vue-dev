@@ -27,7 +27,7 @@
                     <label class="raport__label" for="age">Wiek</label>
                     <input
                         class="raport__input"
-                        type="numeric"
+                        type="number"
                         placeholder="wiek"
                         v-model="age"
                         id="age"
@@ -38,7 +38,7 @@
                     <label class="raport__label" for="weight">Waga</label>
                     <input
                         class="raport__input"
-                        type="numeric"
+                        type="number"
                         placeholder="waga"
                         v-model="weight"
                         id="weight"
@@ -48,7 +48,7 @@
                     <label class="raport__label" for="height">Wzrost</label>
                     <input
                         class="raport__input"
-                        type="numeric"
+                        type="number"
                         placeholder="wzrost"
                         v-model="height"
                         id="height"
@@ -58,7 +58,7 @@
                     <label class="raport__label" for="waist">Talia</label>
                     <input
                         class="raport__input"
-                        type="numeric"
+                        type="number"
                         placeholder="talia"
                         v-model="waist"
                         id="waist"
@@ -70,7 +70,7 @@
                     >
                     <input
                         class="raport__input"
-                        type="numeric"
+                        type="number"
                         placeholder="klatka piersiowa"
                         v-model="chest"
                         id="chest"
@@ -80,7 +80,7 @@
                     <label class="raport__label" for="thigh">Udo</label>
                     <input
                         class="raport__input"
-                        type="numeric"
+                        type="number"
                         placeholder="udo"
                         v-model="thigh"
                         id="thigh"
@@ -90,15 +90,25 @@
                     <label class="raport__label" for="biceps">Biceps</label>
                     <input
                         class="raport__input"
-                        type="numeric"
+                        type="number"
                         placeholder="biceps"
                         v-model="biceps"
                         id="biceps"
                     />
                 </li>
-                <li class="raport__listItem"></li>
-                <li class="raport__listItem"></li>
-                <li class="raport__listItem"></li>
+                <p class="raport__subtitle">Zdjęcia</p>
+
+                <li class="raport__listItem">
+                    <label class="raport__label" for="biceps">Biceps</label>
+                    <p class="raport__input"><UploadImg /></p>
+                    <!-- <input
+                        class="raport__input"
+                        type="number"
+                        placeholder="biceps"
+                        v-model="biceps"
+                        id="biceps"
+                    /> -->
+                </li>
             </ul>
             <Btn type="submit" text="Add your data" :full="true" />
         </form>
@@ -114,13 +124,14 @@
 <script>
 import { db } from '../main';
 import Btn from '@/components/Btn';
-// import firebase from 'firebase';
+import UploadImg from '../components/UploadImg.vue';
 
 export default {
     name: 'FormRaport',
     props: ['authUid'],
     components: {
         Btn,
+        UploadImg,
     },
     data() {
         return {
@@ -178,8 +189,18 @@ export default {
     &__subtitle {
         font-size: 1.4rem;
         font-weight: 700;
-        border-bottom: 1px solid #010101;
         margin-bottom: 20px;
+        position: relative;
+        &:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 8rem;
+            right: 0;
+            height: 0.01rem;
+            background-color: #010101;
+            transform: translateY(-50%);
+        }
     }
     &__listItem {
         display: flex;
@@ -188,7 +209,7 @@ export default {
         margin-bottom: 1rem;
     }
     &__label {
-        font-size: 1rem;
+        font-size: 1.4rem;
         width: 40%;
         text-align: left;
     }
@@ -201,7 +222,7 @@ export default {
         outline: none;
         background-color: #f1f1f1;
         padding: 0.5rem 1rem;
-        font-size: 1rem;
+        font-size: 1.4rem;
         width: 55%;
         min-height: 100%;
         margin: 0 auto 1.6rem;

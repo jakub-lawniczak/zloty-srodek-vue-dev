@@ -28,11 +28,12 @@ export default {
     cursor: pointer;
     outline: inherit;
     font-weight: 600;
+    font-size: 1.6rem;
     color: #ffba15;
     border: 1px solid #ffba15;
-    border-radius: 1.5rem;
-    padding: 0.8446rem 1.5rem;
-    letter-spacing: 0.05rem;
+    border-radius: 0.8rem;
+    padding: 0.8446rem 2.25rem;
+    letter-spacing: 0.1rem;
     // box-sizing: content-box;
     transition: all 0.3s;
     &:hover {

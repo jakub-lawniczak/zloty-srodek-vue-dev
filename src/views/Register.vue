@@ -53,7 +53,8 @@ export default {
 .register {
     &__title {
         font-size: 2rem;
-        line-height: 6rem;
+        margin: 2rem;
+        margin-bottom: 5rem;
         text-align: center;
     }
     &__form {
