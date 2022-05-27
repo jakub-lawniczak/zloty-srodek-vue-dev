@@ -4,19 +4,19 @@
         <p class="panel__text">
             This page is your panel
         </p>
-        <UploadImg :authUid="authUid" />
-        <!-- <Raport :authUid="authUid" /> -->
+        <UserData v-if="authUid" :authUid="authUid" />
+        <UserRaports v-if="authUid" :authUid="authUid" />
     </div>
 </template>
 
 <script>
-import UploadImg from '../components/UploadImg.vue';
-// import Raport from '../components/Raport.vue';
+import UserData from '../components/UserData.vue';
+import UserRaports from '../components/UserRaports';
 export default {
     name: 'Panel',
     components: {
-        UploadImg,
-        // Raport,
+        UserData,
+        UserRaports,
     },
     computed: {
         authUid() {

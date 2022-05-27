@@ -21,13 +21,18 @@
 import firebase from 'firebase';
 export default {
     name: 'UploadImg',
-    props: ['authUid'],
+    // props: ['authUid'],
     data() {
         return {
             imageData: null,
             picture: null,
             uploadValue: 0,
         };
+    },
+    computed: {
+        authUid() {
+            return this.$store.state.auth.user.uid;
+        },
     },
     methods: {
         previewImage(event) {
@@ -39,7 +44,7 @@ export default {
             this.picture = null;
             const storageRef = firebase
                 .storage()
-                .ref(`${this.authUid}-${this.imageData.name}`)
+                .ref(`${this.authUid}/${this.imageData.name}`)
                 .put(this.imageData);
             storageRef.on(
                 `state_changed`,

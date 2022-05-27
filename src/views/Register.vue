@@ -2,23 +2,57 @@
     <div class="register">
         <h2 class="register__title">Register</h2>
         <form class="register__form" @submit.prevent="register">
-            <input
-                class="register__input"
-                type="email"
-                placeholder="Email address..."
-                v-model="email"
-            />
-            <input
-                class="register__input"
-                type="password"
-                placeholder="password..."
-                v-model="password"
-            />
+            <ul>
+                <li class="raport__listItem">
+                    <label class="raport__label" for="fullName">Imię</label>
+                    <input
+                        class="raport__input"
+                        type="text"
+                        placeholder="Imię"
+                        v-model="firstName"
+                        id="fullName"
+                    />
+                </li>
+
+                <li class="raport__listItem">
+                    <label class="raport__label" for="lastName">Nazwisko</label>
+                    <input
+                        class="raport__input"
+                        type="text"
+                        placeholder="Nazwisko"
+                        v-model="lastName"
+                        id="lastName"
+                    />
+                </li>
+                <li class="raport__listItem">
+                    <label class="raport__label" for="birthDate">Wiek</label>
+                    <input
+                        class="raport__input"
+                        type="date"
+                        placeholder="data urodzenia"
+                        v-model="birthDate"
+                        id="birthDate"
+                    />
+                </li>
+                <input
+                    class="register__input"
+                    type="email"
+                    placeholder="Email address..."
+                    v-model="email"
+                />
+                <input
+                    class="register__input"
+                    type="password"
+                    placeholder="password..."
+                    v-model="password"
+                />
+            </ul>
             <Btn type="submit" text="Register" :full="true" />
         </form>
     </div>
 </template>
 <script>
+import { db } from '../main';
 import firebase from 'firebase';
 import Btn from '@/components/Btn';
 
@@ -29,6 +63,9 @@ export default {
     },
     data() {
         return {
+            firstName: '',
+            lastName: '',
+            birthDate: '',
             email: '',
             password: '',
         };
@@ -38,9 +75,21 @@ export default {
             firebase
                 .auth()
                 .createUserWithEmailAndPassword(this.email, this.password)
-                .then(() => {
+
+                .then(data => {
+                    console.log(this.authUid, data.user.uid);
+                    db.collection(`users/`)
+                        .doc(data.user.uid)
+                        .set({
+                            firstName: this.firstName,
+                            lastName: this.lastName,
+                            birthDate: this.birthDate,
+                        })
+                        .then(() => {
+                            this.$router.push('/first-raport');
+                            console.log('added to db');
+                        });
                     alert('Successfully registered! Please login.');
-                    this.$router.push('/first-raport');
                 })
                 .catch(error => {
                     alert(error.message);

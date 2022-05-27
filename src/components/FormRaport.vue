@@ -2,37 +2,6 @@
     <div class="raport">
         <form class="raport__form" @submit.prevent="registerUserData">
             <ul class="raport__list">
-                <li class="raport__listItem">
-                    <label class="raport__label" for="fullName">Imię</label>
-                    <input
-                        class="raport__input"
-                        type="text"
-                        placeholder="Imię"
-                        v-model="firstName"
-                        id="fullName"
-                    />
-                </li>
-
-                <li class="raport__listItem">
-                    <label class="raport__label" for="lastName">Nazwisko</label>
-                    <input
-                        class="raport__input"
-                        type="text"
-                        placeholder="Nazwisko"
-                        v-model="lastName"
-                        id="lastName"
-                    />
-                </li>
-                <li class="raport__listItem">
-                    <label class="raport__label" for="age">Wiek</label>
-                    <input
-                        class="raport__input"
-                        type="number"
-                        placeholder="wiek"
-                        v-model="age"
-                        id="age"
-                    />
-                </li>
                 <p class="raport__subtitle">Pomiary</p>
                 <li class="raport__listItem">
                     <label class="raport__label" for="weight">Waga</label>
@@ -100,14 +69,16 @@
 
                 <li class="raport__listItem">
                     <label class="raport__label" for="biceps">Biceps</label>
-                    <p class="raport__input"><UploadImg /></p>
-                    <!-- <input
-                        class="raport__input"
-                        type="number"
-                        placeholder="biceps"
-                        v-model="biceps"
-                        id="biceps"
-                    /> -->
+                    <p class="raport__input">
+                        <UploadImg v-if="false" />
+                        <input
+                            class="raport__input"
+                            type="file"
+                            placeholder="biceps"
+                            @change="file = $event.target.files[0]"
+                            id="biceps"
+                        />
+                    </p>
                 </li>
             </ul>
             <Btn type="submit" text="Add your data" :full="true" />
@@ -123,8 +94,9 @@
 </template>
 <script>
 import { db } from '../main';
+import firebase from 'firebase';
 import Btn from '@/components/Btn';
-import UploadImg from '../components/UploadImg.vue';
+import UploadImg from '@/components/UploadImg';
 
 export default {
     name: 'FormRaport',
@@ -136,38 +108,59 @@ export default {
     data() {
         return {
             users: [],
-            firstName: '',
-            lastName: '',
-            age: '',
             weight: '',
             height: '',
             waist: '',
             chest: '',
             thigh: '',
             biceps: '',
+            file: null,
         };
     },
     methods: {
         registerUserData() {
-            const user = {
-                firstName: this.firstName,
-                lastName: this.lastName,
-                age: this.age,
+            const userRaport = {
                 weight: this.weight,
                 height: this.height,
                 waist: this.waist,
                 chest: this.chest,
                 thigh: this.thigh,
                 biceps: this.biceps,
-                userId: this.authUid,
             };
-            db.collection(`users/`)
-                .doc(this.authUid)
-                .set(user)
-                .then(() => {
-                    console.log('added to db');
-                    console.log(user);
+
+            db.collection(`users/${this.authUid}/raports`)
+                .add(userRaport)
+                .then(data => {
+                    firebase
+                        .storage()
+                        .ref(`${this.authUid}/${data.id}/${this.file.name}`)
+                        .put(this.file);
                 });
+        },
+        previewImage(event) {
+            this.uploadValue = 0;
+            this.picture = null;
+            this.imageData = event.target.files[0];
+        },
+        onUpload() {
+            this.picture = null;
+            const storageRef = firebase
+                .storage()
+                .ref(`${this.authUid}/${this.imageData.name}`)
+                .put(this.imageData);
+            storageRef.on(
+                `state_changed`,
+                snapshot => {
+                    this.uploadValue =
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                },
+                error => {
+                    console.log(error.message);
+                },
+                storageRef.snapshot.ref.getDownloadURL().then(url => {
+                    this.picture = url;
+                })
+            );
         },
     },
     firestore() {
