@@ -68,18 +68,46 @@
                 <p class="raport__subtitle">Zdjęcia</p>
 
                 <li class="raport__listItem">
-                    <label class="raport__label" for="biceps">Biceps</label>
+                    <label class="raport__label" for="front">Front</label>
                     <p class="raport__input">
                         <UploadImg v-if="false" />
                         <input
                             class="raport__input"
                             type="file"
-                            placeholder="biceps"
-                            @change="file = $event.target.files[0]"
-                            id="biceps"
+                            placeholder="front"
+                            @change="file.push($event.target.files[0])"
+                            id="front"
+                        />
+                    </p>
+                    <pre>{{file}}</pre>
+                </li>
+                <!-- <li class="raport__listItem">
+                    <label class="raport__label" for="side">Side</label>
+                    <p class="raport__input">
+                        <UploadImg v-if="false" />
+                        <input
+                            class="raport__input"
+                            type="file"
+                            placeholder="side"
+                            @change="file[1] = $event.target.files[0]"
+                            id="side"
                         />
                     </p>
                 </li>
+
+                <li class="raport__listItem">
+                    <label class="raport__label" for="back">Back</label>
+                    <p class="raport__input">
+                        <UploadImg v-if="false" />
+                        <input
+                            class="raport__input"
+                            type="file"
+                            placeholder="back"
+                            @change="file[2] = $event.target.files[0]"
+                            id="back"
+                        />
+                    </p>
+                </li> -->
             </ul>
             <Btn type="submit" text="Add your data" :full="true" />
         </form>
@@ -96,25 +124,25 @@
 import { db } from '../main';
 import firebase from 'firebase';
 import Btn from '@/components/Btn';
-import UploadImg from '@/components/UploadImg';
+// import UploadImg from '@/components/UploadImg';
 
 export default {
     name: 'FormRaport',
     props: ['authUid'],
     components: {
         Btn,
-        UploadImg,
+        // UploadImg,
     },
     data() {
         return {
             users: [],
-            weight: '',
+            weight: null,
             height: '',
             waist: '',
             chest: '',
             thigh: '',
             biceps: '',
-            file: null,
+            file: [],
         };
     },
     methods: {

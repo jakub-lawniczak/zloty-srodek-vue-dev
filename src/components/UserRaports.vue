@@ -1,7 +1,7 @@
 <template>
     <div class="raport">
         {{ userData }}
-        <ul class="raport__list">
+        <ul class="raport__list" v-if="userData">
             <p class="raport__subtitle">Wymiary</p>
             <li class="raport__listItem">
                 <label class="raport__label" for="weight">Waga</label>
@@ -9,43 +9,64 @@
             </li>
             <li class="raport__listItem">
                 <label class="raport__label" for="height">Wzrost</label>
-                <p>{{ userData.height}}</p>
-
+                <p>{{ userData.height }}</p>
             </li>
             <li class="raport__listItem">
                 <label class="raport__label" for="waist">Talia</label>
-                   <p>{{ userData.waist }}</p>
-
+                <p>{{ userData.waist }}</p>
             </li>
             <li class="raport__listItem">
                 <label class="raport__label" for="chest"
                     >Klatka piersiowa</label
                 >
                 <p>{{ userData.chest }}</p>
-
             </li>
             <li class="raport__listItem">
                 <label class="raport__label" for="thigh">Udo</label>
                 <p>{{ userData.thigh }}</p>
-
             </li>
             <li class="raport__listItem">
                 <label class="raport__label" for="biceps">Biceps</label>
                 <p>{{ userData.biceps }}</p>
-
             </li>
             <p class="raport__subtitle">Zdjęcia</p>
 
             <li class="raport__listItem">
-                <label class="raport__label" for="biceps">Biceps</label>
+                <label class="raport__label" for="front">Front</label>
                 <p class="raport__input">
                     <UploadImg v-if="false" />
                     <input
                         class="raport__input"
                         type="file"
-                        placeholder="biceps"
+                        placeholder="front"
                         @change="file = $event.target.files[0]"
-                        id="biceps"
+                        id="front"
+                    />
+                </p>
+            </li>
+            <li class="raport__listItem">
+                <label class="raport__label" for="back">Back</label>
+                <p class="raport__input">
+                    <UploadImg v-if="false" />
+                    <input
+                        class="raport__input"
+                        type="file"
+                        placeholder="back"
+                        @change="file = $event.target.files[0]"
+                        id="back"
+                    />
+                </p>
+            </li>
+            <li class="raport__listItem">
+                <label class="raport__label" for="side">Side</label>
+                <p class="raport__input">
+                    <UploadImg v-if="false" />
+                    <input
+                        class="raport__input"
+                        type="file"
+                        placeholder="side"
+                        @change="file = $event.target.files[0]"
+                        id="side"
                     />
                 </p>
             </li>

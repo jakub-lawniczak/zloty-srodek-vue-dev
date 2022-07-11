@@ -37,6 +37,9 @@ export default {
     padding: 2rem 3rem 3rem;
     margin-top: 3rem;
     border-radius: 3rem;
+    @media screen and (max-width: 1024px) {
+        padding: 2rem 0.75rem 1rem;
+    }
 }
 
 // input {

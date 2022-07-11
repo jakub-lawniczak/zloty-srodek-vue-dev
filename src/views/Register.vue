@@ -2,11 +2,11 @@
     <div class="register">
         <h2 class="register__title">Register</h2>
         <form class="register__form" @submit.prevent="register">
-            <ul>
-                <li class="raport__listItem">
-                    <label class="raport__label" for="fullName">Imię</label>
+            <ul class="register__inputList">
+                <li class="register__listItem">
+                    <label class="register__label" for="fullName">Imię</label>
                     <input
-                        class="raport__input"
+                        class="register__input"
                         type="text"
                         placeholder="Imię"
                         v-model="firstName"
@@ -14,40 +14,54 @@
                     />
                 </li>
 
-                <li class="raport__listItem">
-                    <label class="raport__label" for="lastName">Nazwisko</label>
+                <li class="register__listItem">
+                    <label class="register__label" for="lastName"
+                        >Nazwisko</label
+                    >
                     <input
-                        class="raport__input"
+                        class="register__input"
                         type="text"
                         placeholder="Nazwisko"
                         v-model="lastName"
                         id="lastName"
                     />
                 </li>
-                <li class="raport__listItem">
-                    <label class="raport__label" for="birthDate">Wiek</label>
+                <li class="register__listItem">
+                    <label class="register__label" for="birthDate"
+                        >Data urodzenia</label
+                    >
                     <input
-                        class="raport__input"
+                        class="register__input"
                         type="date"
                         placeholder="data urodzenia"
                         v-model="birthDate"
                         id="birthDate"
                     />
                 </li>
-                <input
-                    class="register__input"
-                    type="email"
-                    placeholder="Email address..."
-                    v-model="email"
-                />
-                <input
-                    class="register__input"
-                    type="password"
-                    placeholder="password..."
-                    v-model="password"
-                />
+                <li class="register__listItem">
+                    <label class="register__label" for="email"
+                        >Adres e-mail</label
+                    >
+                    <input
+                        class="register__input"
+                        type="email"
+                        placeholder="Email address..."
+                        v-model="email"
+                    />
+                </li>
+                <li class="register__listItem">
+                    <label class="register__label" for="email"
+                        >Hasło</label
+                    >
+                    <input
+                        class="register__input"
+                        type="password"
+                        placeholder="Create your password"
+                        v-model="password"
+                    />
+                </li>
             </ul>
-            <Btn type="submit" text="Register" :full="true" />
+            <Btn type="submit" text="Register" class="x-center" :full="true" />
         </form>
     </div>
 </template>
@@ -86,7 +100,7 @@ export default {
                             birthDate: this.birthDate,
                         })
                         .then(() => {
-                            this.$router.push('/first-raport');
+                            this.$router.push('/first-register');
                             console.log('added to db');
                         });
                     alert('Successfully registered! Please login.');
@@ -107,10 +121,34 @@ export default {
         text-align: center;
     }
     &__form {
+        display: block;
+        width: 40%;
+        align-items: center;
+        flex-direction: column;
+        margin: 0 auto;
+        @media screen and (max-width: 1024px) {
+            width: 80%;
+        }
+    }
+    &__inputList {
         display: flex;
+        flex-direction: column;
         justify-content: center;
-        flex-wrap: wrap;
         height: auto;
+        width: 100%;
+    }
+    &__listItem {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    &__label {
+        display: inline-block;
+        font-size: 1.2rem;
+        margin-bottom: 0.45rem;
+    }
+    &__input {
+        width: 100%;
+        margin: 0;
     }
     &__input,
     &:-webkit-autofill,
@@ -122,14 +160,13 @@ export default {
         background-color: #f1f1f1;
         padding: 0.75rem 1.5rem;
         font-size: 1.8rem;
-        max-width: 80%;
         min-height: 100%;
         margin: 0 auto 1.6rem;
         border-radius: 0.8rem;
-
-        @media (min-width: 1024px) {
-            margin: 0 2rem 0 0;
-        }
+    }
+    .x-center {
+        display: block;
+        margin: 2rem auto 0;
     }
 }
 </style>

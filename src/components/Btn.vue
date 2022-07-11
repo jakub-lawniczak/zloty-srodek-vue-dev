@@ -28,7 +28,7 @@ export default {
     cursor: pointer;
     outline: inherit;
     font-weight: 600;
-    font-size: 1.6rem;
+    font-size: 2rem;
     color: #ffba15;
     border: 1px solid #ffba15;
     border-radius: 0.8rem;

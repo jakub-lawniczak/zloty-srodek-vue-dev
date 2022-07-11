@@ -1,5 +1,8 @@
 <template>
-    <div>{{ userData }}</div>
+    <div>{{ userData }}
+        <h2>{{ userData.firstName }} {{ userData.lastName }}</h2>
+        <p>{{ userData.birthDate }}</p>
+    </div>
 </template>
 
 <script>
