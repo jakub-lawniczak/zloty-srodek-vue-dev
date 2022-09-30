@@ -75,26 +75,11 @@
                             class="raport__input"
                             type="file"
                             placeholder="front"
-                            @change="file.push($event.target.files[0])"
+                            @change="files.front = $event.target.files[0]"
                             id="front"
                         />
                     </p>
-                    <pre>{{file}}</pre>
                 </li>
-                <!-- <li class="raport__listItem">
-                    <label class="raport__label" for="side">Side</label>
-                    <p class="raport__input">
-                        <UploadImg v-if="false" />
-                        <input
-                            class="raport__input"
-                            type="file"
-                            placeholder="side"
-                            @change="file[1] = $event.target.files[0]"
-                            id="side"
-                        />
-                    </p>
-                </li>
-
                 <li class="raport__listItem">
                     <label class="raport__label" for="back">Back</label>
                     <p class="raport__input">
@@ -103,11 +88,24 @@
                             class="raport__input"
                             type="file"
                             placeholder="back"
-                            @change="file[2] = $event.target.files[0]"
+                            @change="files.back = $event.target.files[0]"
                             id="back"
                         />
                     </p>
-                </li> -->
+                </li>
+                <li class="raport__listItem">
+                    <label class="raport__label" for="side">Side</label>
+                    <p class="raport__input">
+                        <UploadImg v-if="false" />
+                        <input
+                            class="raport__input"
+                            type="file"
+                            placeholder="side"
+                            @change="files.side = $event.target.files[0]"
+                            id="side"
+                        />
+                    </p>
+                </li>
             </ul>
             <Btn type="submit" text="Add your data" :full="true" />
         </form>
@@ -124,14 +122,14 @@
 import { db } from '../main';
 import firebase from 'firebase';
 import Btn from '@/components/Btn';
-// import UploadImg from '@/components/UploadImg';
+import UploadImg from '@/components/UploadImg';
 
 export default {
     name: 'FormRaport',
     props: ['authUid'],
     components: {
         Btn,
-        // UploadImg,
+        UploadImg,
     },
     data() {
         return {
@@ -142,11 +140,15 @@ export default {
             chest: '',
             thigh: '',
             biceps: '',
-            file: [],
+            files: {
+                front: null,
+                back: null,
+                side: null,
+            },
         };
     },
     methods: {
-        registerUserData() {
+        async registerUserData() {
             const userRaport = {
                 weight: this.weight,
                 height: this.height,
@@ -154,16 +156,30 @@ export default {
                 chest: this.chest,
                 thigh: this.thigh,
                 biceps: this.biceps,
+                date: new Date(),
+                frontFileName: this.files.front?.name ?? null,
+                backFileName: this.files.back?.name ?? null,
+                sideFileName: this.files.side?.name ?? null,
             };
 
-            db.collection(`users/${this.authUid}/raports`)
-                .add(userRaport)
-                .then(data => {
-                    firebase
+            const reportResponse = await db
+                .collection(`users/${this.authUid}/raports`)
+                .add(userRaport);
+            await Promise.all(
+                Object.entries(this.files).map(([name, file]) => {
+                    if (!file) {
+                        return;
+                    }
+                    return firebase
                         .storage()
-                        .ref(`${this.authUid}/${data.id}/${this.file.name}`)
-                        .put(this.file);
-                });
+                        .ref(
+                            `${this.authUid}/${reportResponse.id}/${name}/${file.name}`
+                        )
+                        .put(file);
+                })
+            );
+            alert('Your raport submitted');
+            this.$router.push('/panel');
         },
         previewImage(event) {
             this.uploadValue = 0;
@@ -187,6 +203,7 @@ export default {
                 },
                 storageRef.snapshot.ref.getDownloadURL().then(url => {
                     this.picture = url;
+                    console.log(url);
                 })
             );
         },
