@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="previewImage">
         <img :src="url" />
     </div>
 </template>
@@ -28,4 +28,15 @@ export default {
     },
 };
 </script>
-<style lang=""></style>
+<style lang="scss" scoped>
+.previewImage {
+    width: 40rem;
+    @media screen and (max-width: 1024px) {
+        width: calc(100% - 3.5rem);
+    }
+    img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+}
+</style>

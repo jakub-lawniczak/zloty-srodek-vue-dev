@@ -34,11 +34,11 @@ export default {
     width: 85%;
     min-height: calc(100vh - 12rem);
     margin: 0 auto;
-    padding: 2rem 3rem 3rem;
+    padding: 4rem 6rem 4rem;
     margin-top: 3rem;
     border-radius: 3rem;
     @media screen and (max-width: 1024px) {
-        padding: 2rem 0.75rem 1rem;
+        padding: 2rem 1.75rem 1rem;
     }
 }
 

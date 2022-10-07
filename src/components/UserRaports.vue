@@ -1,6 +1,13 @@
 <template>
     <div class="raport">
-        <pre>{{ userRaports }}</pre>
+        <h3 v-if="!userRaports.length" class="raport__noRaport">
+            Aby zobaczyć swoje wymiary musisz uzepełnić swoje dane w raporcie
+            <router-link to="/raport" class="raport__link">
+                <Btn text="Raport" :full="false"
+            /></router-link>
+        </h3>
+
+        <Btn v-if="ifAuth" text="Logout" :full="true" />
         <UserRaportList
             v-if="userRaports.length > 1"
             :userData="userRaports[userRaports.length - 1].data"
@@ -19,10 +26,11 @@
 <script>
 import { db } from '../main';
 import UserRaportList from '@/components/UserRaportList.vue';
+import Btn from '@/components/Btn';
 export default {
     name: 'UserData',
     props: ['authUid'],
-    components: { UserRaportList },
+    components: { UserRaportList, Btn },
     data() {
         return {
             userData: null,
@@ -46,4 +54,19 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.raport {
+    margin-top: 3rem;
+    &__noRaport {
+        font-size: 2rem;
+        color: red;
+        line-height: 1.2;
+    }
+    &__link {
+        display: block;
+        margin-top: 1rem;
+        text-decoration: none;
+        font-weight: 600;
+    }
+}
+</style>

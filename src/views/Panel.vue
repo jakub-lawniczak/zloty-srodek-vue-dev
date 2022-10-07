@@ -1,9 +1,9 @@
 <template>
     <div class="panel">
         <h2 class="panel__title">Panel</h2>
-        <p class="panel__text">
+        <!-- <p class="panel__text">
             This page is your panel
-        </p>
+        </p> -->
         <UserData v-if="authUid" :authUid="authUid" />
         <UserRaports v-if="authUid" :authUid="authUid" />
     </div>
@@ -26,4 +26,16 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.panel {
+    text-align: center;
+    &__title {
+        font-size: 2rem;
+        font-weight: 600;
+        line-height: 1.4;
+    }
+    &__text {
+        font-size: 1.6rem;
+    }
+}
+</style>

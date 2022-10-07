@@ -1,5 +1,13 @@
 <template>
     <div class="raport">
+        <p class="raport__hint">
+            Nie wiesz jak sie mierzyć?<br />
+            <a
+                href="https://www.youtube.com/watch?v=OXA9GPgjuGI&ab_channel=TrenerMariuszMr%C3%B3z"
+                target="_blank"
+                >Sprawdź</a
+            >
+        </p>
         <form class="raport__form" @submit.prevent="registerUserData">
             <ul class="raport__list">
                 <p class="raport__subtitle">Pomiary</p>
@@ -34,9 +42,7 @@
                     />
                 </li>
                 <li class="raport__listItem">
-                    <label class="raport__label" for="chest"
-                        >Klatka piersiowa</label
-                    >
+                    <label class="raport__label" for="chest">Klatka</label>
                     <input
                         class="raport__input"
                         type="number"
@@ -69,7 +75,7 @@
 
                 <li class="raport__listItem">
                     <label class="raport__label" for="front">Front</label>
-                    <p class="raport__input">
+                    <div class="raport__input">
                         <UploadImg v-if="false" />
                         <input
                             class="raport__input"
@@ -78,11 +84,15 @@
                             @change="files.front = $event.target.files[0]"
                             id="front"
                         />
-                    </p>
+                        <div class="raport__UploadIcon">
+                            <UploadIcon />
+                        </div>
+                        <span>{{ files.front }}</span>
+                    </div>
                 </li>
                 <li class="raport__listItem">
                     <label class="raport__label" for="back">Back</label>
-                    <p class="raport__input">
+                    <div class="raport__input">
                         <UploadImg v-if="false" />
                         <input
                             class="raport__input"
@@ -91,11 +101,15 @@
                             @change="files.back = $event.target.files[0]"
                             id="back"
                         />
-                    </p>
+                        <div class="raport__UploadIcon">
+                            <UploadIcon />
+                        </div>
+                        <span v-if="files.back">{{ files.back }}</span>
+                    </div>
                 </li>
                 <li class="raport__listItem">
                     <label class="raport__label" for="side">Side</label>
-                    <p class="raport__input">
+                    <div class="raport__input">
                         <UploadImg v-if="false" />
                         <input
                             class="raport__input"
@@ -104,18 +118,69 @@
                             @change="files.side = $event.target.files[0]"
                             id="side"
                         />
-                    </p>
+                        <div class="raport__UploadIcon">
+                            <UploadIcon />
+                        </div>
+                        <!-- <span v-if="files.side.name"
+                            ><pre>{{ files.side.name }}</pre></span
+                        > -->
+                    </div>
+                </li>
+                <p class="raport__subtitle" v-if="userRaports.length === 0">
+                    Twój cel
+                </p>
+                <li
+                    class="raport__listItem--goal"
+                    v-if="userRaports.length === 0"
+                >
+                    <ul class="raport__sublist">
+                        <li class="raport__listItem raport__listItem--radio">
+                            <label
+                                class="raport__label raport__label--radio"
+                                for="loseWeight"
+                                >Redukcja<br />tkanki tłuszczowej
+                                <input
+                                    class="raport__inputRadio"
+                                    type="radio"
+                                    id="loseWeight"
+                                    name="goal"
+                                    v-model="goal"
+                                    value="redukcja"
+                            /></label>
+                        </li>
+                        <li class="raport__listItem raport__listItem--radio">
+                            <label
+                                class="raport__label raport__label--radio"
+                                for="gainWeight"
+                                >Budowa<br />masy mięśniowej
+                                <input
+                                    class="raport__inputRadio"
+                                    type="radio"
+                                    id="gainWeight"
+                                    name="goal"
+                                    v-model="goal"
+                                    value="masa"
+                            /></label>
+                        </li>
+                        <li class="raport__listItem raport__listItem--radio">
+                            <label
+                                class="raport__label raport__label--radio"
+                                for="getRidOfBackPain"
+                                >Pozbycie się<br />bólu pleców
+                                <input
+                                    class="raport__inputRadio"
+                                    type="radio"
+                                    id="getRidOfBackPain"
+                                    name="goal"
+                                    v-model="goal"
+                                    value="plecy"
+                            /></label>
+                        </li>
+                    </ul>
                 </li>
             </ul>
-            <Btn type="submit" text="Add your data" :full="true" />
+            <Btn type="submit" text="Add your data" :full="true" class="btn" />
         </form>
-        <!-- {{ authUid }}
-        <div>
-            <p>Data for admin:</p>
-            <div v-for="singleUser in users" :key="singleUser.firstName">
-                <pre>{{ singleUser }}</pre>
-            </div>
-        </div> -->
     </div>
 </template>
 <script>
@@ -123,6 +188,7 @@ import { db } from '../main';
 import firebase from 'firebase';
 import Btn from '@/components/Btn';
 import UploadImg from '@/components/UploadImg';
+import UploadIcon from '@/components/UploadIcon';
 
 export default {
     name: 'FormRaport',
@@ -130,6 +196,7 @@ export default {
     components: {
         Btn,
         UploadImg,
+        UploadIcon,
     },
     data() {
         return {
@@ -145,6 +212,8 @@ export default {
                 back: null,
                 side: null,
             },
+            goal: '',
+            userRaports: [],
         };
     },
     methods: {
@@ -208,6 +277,15 @@ export default {
             );
         },
     },
+    mounted() {
+        db.collection(`users/${this.authUid}/raports`).onSnapshot(doc => {
+            doc.docs.forEach(item => console.log(item.id));
+            this.userRaports = doc.docs.map(item => ({
+                uid: item.id,
+                data: item.data(),
+            }));
+        });
+    },
     firestore() {
         return {
             users: db.collection('users'),
@@ -220,20 +298,39 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    &__hint {
+        padding: 0.5rem;
+        background: #d8d8d8;
+        border-radius: 8px;
+        font-size: 14px;
+        text-align: center;
+        margin: 1rem;
+    }
     &__form {
         width: 80%;
         max-width: 600px;
     }
+    &__sublist {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        @media screen and (max-width: 1024px) {
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+    }
     &__subtitle {
-        font-size: 1.4rem;
+        font-size: 2rem;
         font-weight: 700;
         margin-bottom: 20px;
         position: relative;
+        text-align: left;
         &:before {
             content: '';
             position: absolute;
             top: 50%;
-            left: 8rem;
+            left: 10rem;
             right: 0;
             height: 0.01rem;
             background-color: #010101;
@@ -245,11 +342,23 @@ export default {
         justify-content: space-between;
         align-items: center;
         margin-bottom: 1rem;
+        &--image {
+            flex-direction: column;
+            justify-content: center;
+        }
+        &--radio {
+            flex-direction: column;
+            line-height: 1.5;
+            text-align: center;
+            @media screen and (max-width: 1024px) {
+                flex-direction: row;
+            }
+        }
     }
     &__label {
-        font-size: 1.4rem;
-        width: 40%;
-        text-align: left;
+        font-size: 1.6rem;
+        // width: 40%;
+        // text-align: left;
     }
     &__input,
     &:-webkit-autofill,
@@ -261,14 +370,73 @@ export default {
         background-color: #f1f1f1;
         padding: 0.5rem 1rem;
         font-size: 1.4rem;
-        width: 55%;
+        text-align: right;
+        font-weight: 700;
+        width: 65%;
         min-height: 100%;
-        margin: 0 auto 1.6rem;
+        margin: 0 0 1.6rem;
         border-radius: 0.8rem;
+        position: relative;
+        z-index: 2;
 
         @media (min-width: 1024px) {
             margin: 0;
         }
+        [type='file'] {
+            height: 100%;
+            overflow: hidden;
+            width: 100%;
+            opacity: 0;
+        }
     }
+    &__UploadIcon {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        width: 2rem;
+        height: 1rem;
+        transform: translate(-50%, -50%);
+        z-index: -1;
+    }
+    input[type='radio'] {
+        /* Add if not using autoprefixer */
+        -webkit-appearance: none;
+        /* Remove most all native input styles */
+        appearance: none;
+        /* For iOS < 15 */
+        background-color: transparent;
+        /* Not removed via appearance */
+        margin: 1rem auto;
+
+        font: inherit;
+        color: #ffba15;
+        width: 1.15em;
+        height: 1.15em;
+        border: 0.15em solid #ffba15;
+        border-radius: 50%;
+        transform: translateY(-0.075em);
+        display: grid;
+        place-content: center;
+    }
+
+    input[type='radio']::before {
+        content: '';
+        width: 0.65em;
+        height: 0.65em;
+        border-radius: 50%;
+        transform: scale(0);
+        transition: 120ms transform ease-in-out;
+        box-shadow: inset 1em 1em #ffba15;
+        /* Windows High Contrast Mode */
+        background-color: #ffba15;
+    }
+
+    input[type='radio']:checked::before {
+        transform: scale(1);
+    }
+}
+.btn {
+    display: block;
+    margin: 2rem auto;
 }
 </style>

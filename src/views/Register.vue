@@ -50,9 +50,7 @@
                     />
                 </li>
                 <li class="register__listItem">
-                    <label class="register__label" for="email"
-                        >Hasło</label
-                    >
+                    <label class="register__label" for="email">Hasło</label>
                     <input
                         class="register__input"
                         type="password"
@@ -98,6 +96,7 @@ export default {
                             firstName: this.firstName,
                             lastName: this.lastName,
                             birthDate: this.birthDate,
+                            email: this.email,
                         })
                         .then(() => {
                             this.$router.push('/first-register');

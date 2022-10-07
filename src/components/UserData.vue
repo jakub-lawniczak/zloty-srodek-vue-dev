@@ -1,7 +1,9 @@
 <template>
-    <div v-if="userData">
-        <h2>{{ userData.firstName }} {{ userData.lastName }}</h2>
-        <p>{{ userData.birthDate }}</p>
+    <div v-if="userData" class="userData">
+        <h2 class="userData__title">
+            {{ userData.firstName }} {{ userData.lastName }}
+        </h2>
+        <!-- <p>{{ userData.birthDate }}</p> -->
     </div>
 </template>
 
@@ -37,4 +39,12 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.userData {
+    margin-top: 2rem;
+    &__title {
+        font-size: 3.2rem;
+        font-weight: 600;
+    }
+}
+</style>
