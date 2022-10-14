@@ -76,108 +76,73 @@
                 <li class="raport__listItem">
                     <label class="raport__label" for="front">Front</label>
                     <div class="raport__input">
-                        <UploadImg v-if="false" />
-                        <input
-                            class="raport__input"
-                            type="file"
-                            placeholder="front"
-                            @change="files.front = $event.target.files[0]"
-                            id="front"
+                        <UploadImg
+                            @change="files.front = $event"
+                            :fileName="files.front ? files.front.name : ''"
                         />
-                        <div class="raport__UploadIcon">
-                            <UploadIcon />
-                        </div>
-                        <span>{{ files.front }}</span>
                     </div>
                 </li>
                 <li class="raport__listItem">
                     <label class="raport__label" for="back">Back</label>
                     <div class="raport__input">
-                        <UploadImg v-if="false" />
-                        <input
-                            class="raport__input"
-                            type="file"
-                            placeholder="back"
-                            @change="files.back = $event.target.files[0]"
-                            id="back"
+                        <UploadImg
+                            @change="files.back = $event"
+                            :fileName="files.back ? files.back.name : ''"
                         />
-                        <div class="raport__UploadIcon">
-                            <UploadIcon />
-                        </div>
-                        <span v-if="files.back">{{ files.back }}</span>
                     </div>
                 </li>
                 <li class="raport__listItem">
                     <label class="raport__label" for="side">Side</label>
                     <div class="raport__input">
-                        <UploadImg v-if="false" />
-                        <input
-                            class="raport__input"
-                            type="file"
-                            placeholder="side"
-                            @change="files.side = $event.target.files[0]"
-                            id="side"
+                        <UploadImg
+                            @change="files.side = $event"
+                            :fileName="files.side ? files.side.name : ''"
                         />
-                        <div class="raport__UploadIcon">
-                            <UploadIcon />
-                        </div>
-                        <!-- <span v-if="files.side.name"
-                            ><pre>{{ files.side.name }}</pre></span
-                        > -->
                     </div>
                 </li>
-                <p class="raport__subtitle" v-if="userRaports.length === 0">
-                    Twój cel
-                </p>
-                <li
-                    class="raport__listItem--goal"
-                    v-if="userRaports.length === 0"
-                >
-                    <ul class="raport__sublist">
-                        <li class="raport__listItem raport__listItem--radio">
-                            <label
-                                class="raport__label raport__label--radio"
-                                for="loseWeight"
-                                >Redukcja<br />tkanki tłuszczowej
-                                <input
-                                    class="raport__inputRadio"
-                                    type="radio"
-                                    id="loseWeight"
-                                    name="goal"
-                                    v-model="goal"
-                                    value="redukcja"
-                            /></label>
-                        </li>
-                        <li class="raport__listItem raport__listItem--radio">
-                            <label
-                                class="raport__label raport__label--radio"
-                                for="gainWeight"
-                                >Budowa<br />masy mięśniowej
-                                <input
-                                    class="raport__inputRadio"
-                                    type="radio"
-                                    id="gainWeight"
-                                    name="goal"
-                                    v-model="goal"
-                                    value="masa"
-                            /></label>
-                        </li>
-                        <li class="raport__listItem raport__listItem--radio">
-                            <label
-                                class="raport__label raport__label--radio"
-                                for="getRidOfBackPain"
-                                >Pozbycie się<br />bólu pleców
-                                <input
-                                    class="raport__inputRadio"
-                                    type="radio"
-                                    id="getRidOfBackPain"
-                                    name="goal"
-                                    v-model="goal"
-                                    value="plecy"
-                            /></label>
-                        </li>
-                    </ul>
-                </li>
+                <template v-if="userRaports.length === 0">
+                    <li class="raport__listItem--goal">
+                        <RadioButtons
+                            label="Twój cel"
+                            v-model="goal"
+                            :items="goalItems"
+                            name="goal"
+                        />
+                    </li>
+                    <li class="raport__listItem--goal">
+                        <RadioButtons
+                            label="Twoja aktywność"
+                            v-model="activity"
+                            :items="activityItems"
+                            name="activity"
+                        />
+                    </li>
+                    <li class="raport__listItem--goal">
+                        <RadioButtons
+                            label="Częstotliwość"
+                            v-model="quantity"
+                            :items="quantityItems"
+                            name="quantity"
+                        />
+                    </li>
+                    <li class="raport__listItem--goal">
+                        <RadioButtons
+                            label="Długość"
+                            v-model="workoutTime"
+                            :items="workoutTimeItems"
+                            name="workoutTime"
+                        />
+                    </li>
+                </template>
+                <template v-if="userRaports.length">
+                    <textarea
+                        name="changes"
+                        id="changes"
+                        type="text"
+                        v-model="changes"
+                    />
+                    <label for="changes">Co Ci nie pasuję?!</label>
+                </template>
             </ul>
             <Btn type="submit" text="Add your data" :full="true" class="btn" />
         </form>
@@ -188,7 +153,13 @@ import { db } from '../main';
 import firebase from 'firebase';
 import Btn from '@/components/Btn';
 import UploadImg from '@/components/UploadImg';
-import UploadIcon from '@/components/UploadIcon';
+import RadioButtons from '@/components/RadioButtons';
+import {
+    goalItems,
+    activityItems,
+    quantityItems,
+    workoutTimeItems,
+} from '@/components/radioItems.js';
 
 export default {
     name: 'FormRaport',
@@ -196,7 +167,7 @@ export default {
     components: {
         Btn,
         UploadImg,
-        UploadIcon,
+        RadioButtons,
     },
     data() {
         return {
@@ -213,7 +184,15 @@ export default {
                 side: null,
             },
             goal: '',
+            activity: '',
+            quantity: '',
+            workoutTime: '',
             userRaports: [],
+            goalItems,
+            activityItems,
+            quantityItems,
+            workoutTimeItems,
+            changes: '',
         };
     },
     methods: {
@@ -225,10 +204,15 @@ export default {
                 chest: this.chest,
                 thigh: this.thigh,
                 biceps: this.biceps,
+                goal: this.goal,
+                activity: this.activity,
+                quantity: this.quantity,
+                workoutTime: this.workoutTime,
                 date: new Date(),
                 frontFileName: this.files.front?.name ?? null,
                 backFileName: this.files.back?.name ?? null,
                 sideFileName: this.files.side?.name ?? null,
+                changes: this.changes,
             };
 
             const reportResponse = await db
@@ -242,7 +226,7 @@ export default {
                     return firebase
                         .storage()
                         .ref(
-                            `${this.authUid}/${reportResponse.id}/${name}/${file.name}`
+                            `${this.authUid}/raports/${reportResponse.id}/${name}/${file.name}`
                         )
                         .put(file);
                 })
@@ -310,33 +294,33 @@ export default {
         width: 80%;
         max-width: 600px;
     }
-    &__sublist {
-        display: flex;
-        justify-content: space-around;
-        flex-wrap: wrap;
-        @media screen and (max-width: 1024px) {
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-    }
-    &__subtitle {
-        font-size: 2rem;
-        font-weight: 700;
-        margin-bottom: 20px;
-        position: relative;
-        text-align: left;
-        &:before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 10rem;
-            right: 0;
-            height: 0.01rem;
-            background-color: #010101;
-            transform: translateY(-50%);
-        }
-    }
+    // &__sublist {
+    //     display: flex;
+    //     justify-content: space-around;
+    //     flex-wrap: wrap;
+    //     @media screen and (max-width: 1024px) {
+    //         justify-content: center;
+    //         align-items: center;
+    //         flex-direction: column;
+    //     }
+    // }
+    // &__subtitle {
+    //     font-size: 2rem;
+    //     font-weight: 700;
+    //     margin-bottom: 20px;
+    //     position: relative;
+    //     text-align: left;
+    //     &:before {
+    //         content: '';
+    //         position: absolute;
+    //         top: 50%;
+    //         left: 10rem;
+    //         right: 0;
+    //         height: 0.01rem;
+    //         background-color: #010101;
+    //         transform: translateY(-50%);
+    //     }
+    // }
     &__listItem {
         display: flex;
         justify-content: space-between;
@@ -382,58 +366,58 @@ export default {
         @media (min-width: 1024px) {
             margin: 0;
         }
-        [type='file'] {
-            height: 100%;
-            overflow: hidden;
-            width: 100%;
-            opacity: 0;
-        }
+        // [type='file'] {
+        //     height: 100%;
+        //     overflow: hidden;
+        //     width: 100%;
+        //     opacity: 0;
+        // }
     }
-    &__UploadIcon {
-        position: absolute;
-        top: 40%;
-        left: 50%;
-        width: 2rem;
-        height: 1rem;
-        transform: translate(-50%, -50%);
-        z-index: -1;
-    }
-    input[type='radio'] {
-        /* Add if not using autoprefixer */
-        -webkit-appearance: none;
-        /* Remove most all native input styles */
-        appearance: none;
-        /* For iOS < 15 */
-        background-color: transparent;
-        /* Not removed via appearance */
-        margin: 1rem auto;
+    // &__UploadIcon {
+    //     position: absolute;
+    //     top: 40%;
+    //     left: 50%;
+    //     width: 2rem;
+    //     height: 1rem;
+    //     transform: translate(-50%, -50%);
+    //     z-index: -1;
+    // }
+    // input[type='radio'] {
+    //     /* Add if not using autoprefixer */
+    //     -webkit-appearance: none;
+    //     /* Remove most all native input styles */
+    //     appearance: none;
+    //     /* For iOS < 15 */
+    //     background-color: transparent;
+    //     /* Not removed via appearance */
+    //     margin: 1rem auto;
 
-        font: inherit;
-        color: #ffba15;
-        width: 1.15em;
-        height: 1.15em;
-        border: 0.15em solid #ffba15;
-        border-radius: 50%;
-        transform: translateY(-0.075em);
-        display: grid;
-        place-content: center;
-    }
+    //     font: inherit;
+    //     color: #ffba15;
+    //     width: 1.15em;
+    //     height: 1.15em;
+    //     border: 0.15em solid #ffba15;
+    //     border-radius: 50%;
+    //     transform: translateY(-0.075em);
+    //     display: grid;
+    //     place-content: center;
+    // }
 
-    input[type='radio']::before {
-        content: '';
-        width: 0.65em;
-        height: 0.65em;
-        border-radius: 50%;
-        transform: scale(0);
-        transition: 120ms transform ease-in-out;
-        box-shadow: inset 1em 1em #ffba15;
-        /* Windows High Contrast Mode */
-        background-color: #ffba15;
-    }
+    // input[type='radio']::before {
+    //     content: '';
+    //     width: 0.65em;
+    //     height: 0.65em;
+    //     border-radius: 50%;
+    //     transform: scale(0);
+    //     transition: 120ms transform ease-in-out;
+    //     box-shadow: inset 1em 1em #ffba15;
+    //     /* Windows High Contrast Mode */
+    //     background-color: #ffba15;
+    // }
 
-    input[type='radio']:checked::before {
-        transform: scale(1);
-    }
+    // input[type='radio']:checked::before {
+    //     transform: scale(1);
+    // }
 }
 .btn {
     display: block;

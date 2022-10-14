@@ -6,8 +6,10 @@
                 <Btn text="Raport" :full="false"
             /></router-link>
         </h3>
-
-        <Btn v-if="ifAuth" text="Logout" :full="true" />
+        <ul v-if="userRaports.length">
+            <li>activity : {{ userRaports[0].data.activity }}</li>
+        </ul>
+        {{ userRaports[0] }}
         <UserRaportList
             v-if="userRaports.length > 1"
             :userData="userRaports[userRaports.length - 1].data"

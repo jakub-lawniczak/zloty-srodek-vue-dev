@@ -5,6 +5,7 @@
             This page is your panel
         </p> -->
         <UserData v-if="authUid" :authUid="authUid" />
+
         <UserRaports v-if="authUid" :authUid="authUid" />
     </div>
 </template>

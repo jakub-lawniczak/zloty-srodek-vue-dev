@@ -87,7 +87,6 @@ export default {
             firebase
                 .auth()
                 .createUserWithEmailAndPassword(this.email, this.password)
-
                 .then(data => {
                     console.log(this.authUid, data.user.uid);
                     db.collection(`users/`)
@@ -104,6 +103,7 @@ export default {
                         });
                     alert('Successfully registered! Please login.');
                 })
+
                 .catch(error => {
                     alert(error.message);
                 });

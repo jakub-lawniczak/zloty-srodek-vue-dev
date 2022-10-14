@@ -37,7 +37,7 @@
             <label class="raport__label" for="front">Front</label>
             <PreviewImage
                 :path="
-                    `/${authUid}/${raportUid}/front/${userData.frontFileName}`
+                    `/${authUid}/raports/${raportUid}/front/${userData.frontFileName}`
                 "
                 v-if="userData.frontFileName"
             />
@@ -45,14 +45,18 @@
         <li class="raport__listItem raport__listItem--image">
             <label class="raport__label" for="front">Back</label>
             <PreviewImage
-                :path="`/${authUid}/${raportUid}/back/${userData.backFileName}`"
+                :path="
+                    `/${authUid}/raports/${raportUid}/back/${userData.backFileName}`
+                "
                 v-if="userData.backFileName"
             />
         </li>
         <li class="raport__listItem raport__listItem--image">
             <label class="raport__label" for="front">Side</label>
             <PreviewImage
-                :path="`/${authUid}/${raportUid}/side/${userData.sideFileName}`"
+                :path="
+                    `/${authUid}/raports/${raportUid}/side/${userData.sideFileName}`
+                "
                 v-if="userData.sideFileName"
             />
         </li>
