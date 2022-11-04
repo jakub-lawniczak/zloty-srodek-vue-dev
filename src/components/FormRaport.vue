@@ -8,144 +8,324 @@
                 >Sprawdź</a
             >
         </p>
-        <form class="raport__form" @submit.prevent="registerUserData">
-            <ul class="raport__list">
-                <p class="raport__subtitle">Pomiary</p>
-                <li class="raport__listItem">
-                    <label class="raport__label" for="weight">Waga</label>
-                    <input
-                        class="raport__input"
-                        type="number"
-                        placeholder="waga"
-                        v-model="weight"
-                        id="weight"
-                    />
-                </li>
-                <li class="raport__listItem">
-                    <label class="raport__label" for="height">Wzrost</label>
-                    <input
-                        class="raport__input"
-                        type="number"
-                        placeholder="wzrost"
-                        v-model="height"
-                        id="height"
-                    />
-                </li>
-                <li class="raport__listItem">
-                    <label class="raport__label" for="waist">Talia</label>
-                    <input
-                        class="raport__input"
-                        type="number"
-                        placeholder="talia"
-                        v-model="waist"
-                        id="waist"
-                    />
-                </li>
-                <li class="raport__listItem">
-                    <label class="raport__label" for="chest">Klatka</label>
-                    <input
-                        class="raport__input"
-                        type="number"
-                        placeholder="klatka piersiowa"
-                        v-model="chest"
-                        id="chest"
-                    />
-                </li>
-                <li class="raport__listItem">
-                    <label class="raport__label" for="thigh">Udo</label>
-                    <input
-                        class="raport__input"
-                        type="number"
-                        placeholder="udo"
-                        v-model="thigh"
-                        id="thigh"
-                    />
-                </li>
-                <li class="raport__listItem">
-                    <label class="raport__label" for="biceps">Biceps</label>
-                    <input
-                        class="raport__input"
-                        type="number"
-                        placeholder="biceps"
-                        v-model="biceps"
-                        id="biceps"
-                    />
-                </li>
-                <p class="raport__subtitle">Zdjęcia</p>
+        <ValidationObserver v-slot="{ handleSubmit }">
+            <form
+                class="raport__form"
+                @submit.prevent="handleSubmit(registerUserData)"
+            >
+                <ul class="raport__list">
+                    <p class="raport__subtitle">Pomiary</p>
+                    <li class="raport__listItem">
+                        <label class="raport__label" for="weight">Waga</label>
+                        <ValidationProvider
+                            name="Waga"
+                            rules="required"
+                            class="validationProvider"
+                            v-slot="{ errors }"
+                        >
+                            <input
+                                class="raport__input"
+                                type="number"
+                                placeholder="waga"
+                                v-model="weight"
+                                id="weight"
+                                :class="errors[0] ? 'raport__input--error' : ''"
+                            />
+                            <p class="error">
+                                {{ errors[0] }}
+                            </p>
+                        </ValidationProvider>
+                    </li>
+                    <li class="raport__listItem">
+                        <label class="raport__label" for="height">Wzrost</label>
+                        <ValidationProvider
+                            name="Wzrost"
+                            rules="required"
+                            class="validationProvider"
+                            v-slot="{ errors }"
+                        >
+                            <input
+                                class="raport__input"
+                                type="number"
+                                placeholder="wzrost"
+                                v-model="height"
+                                id="height"
+                                :class="errors[0] ? 'raport__input--error' : ''"
+                            />
+                            <p class="error">
+                                {{ errors[0] }}
+                            </p>
+                        </ValidationProvider>
+                    </li>
+                    <li class="raport__listItem">
+                        <label class="raport__label" for="waist">Talia</label>
+                        <ValidationProvider
+                            name="Talia"
+                            rules="required"
+                            class="validationProvider"
+                            v-slot="{ errors }"
+                        >
+                            <input
+                                class="raport__input"
+                                type="number"
+                                placeholder="talia"
+                                v-model="waist"
+                                id="waist"
+                                :class="errors[0] ? 'raport__input--error' : ''"
+                            />
+                            <p class="error">
+                                {{ errors[0] }}
+                            </p>
+                        </ValidationProvider>
+                    </li>
+                    <li class="raport__listItem">
+                        <label class="raport__label" for="chest">Klatka</label>
+                        <ValidationProvider
+                            name="Klatka"
+                            rules="required"
+                            class="validationProvider"
+                            v-slot="{ errors }"
+                        >
+                            <input
+                                class="raport__input"
+                                type="number"
+                                placeholder="klatka piersiowa"
+                                v-model="chest"
+                                id="chest"
+                                :class="errors[0] ? 'raport__input--error' : ''"
+                            />
+                            <p class="error">
+                                {{ errors[0] }}
+                            </p>
+                        </ValidationProvider>
+                    </li>
+                    <li class="raport__listItem">
+                        <label class="raport__label" for="thigh">Udo</label>
+                        <ValidationProvider
+                            name="Udo"
+                            rules="required"
+                            class="validationProvider"
+                            v-slot="{ errors }"
+                        >
+                            <input
+                                class="raport__input"
+                                type="number"
+                                placeholder="udo"
+                                v-model="thigh"
+                                id="thigh"
+                                :class="errors[0] ? 'raport__input--error' : ''"
+                            />
+                            <p class="error">
+                                {{ errors[0] }}
+                            </p>
+                        </ValidationProvider>
+                    </li>
+                    <li class="raport__listItem">
+                        <label class="raport__label" for="biceps">Biceps</label>
+                        <ValidationProvider
+                            name="Biceps"
+                            rules="required"
+                            class="validationProvider"
+                            v-slot="{ errors }"
+                        >
+                            <input
+                                class="raport__input"
+                                type="number"
+                                placeholder="biceps"
+                                v-model="biceps"
+                                id="biceps"
+                                :class="errors[0] ? 'raport__input--error' : ''"
+                            />
+                            <p class="error">
+                                {{ errors[0] }}
+                            </p>
+                        </ValidationProvider>
+                    </li>
+                    <p class="raport__subtitle">Zdjęcia</p>
 
-                <li class="raport__listItem">
-                    <label class="raport__label" for="front">Front</label>
-                    <div class="raport__input">
-                        <UploadImg
-                            @change="files.front = $event"
-                            :fileName="files.front ? files.front.name : ''"
-                        />
-                    </div>
-                </li>
-                <li class="raport__listItem">
-                    <label class="raport__label" for="back">Back</label>
-                    <div class="raport__input">
-                        <UploadImg
-                            @change="files.back = $event"
-                            :fileName="files.back ? files.back.name : ''"
-                        />
-                    </div>
-                </li>
-                <li class="raport__listItem">
-                    <label class="raport__label" for="side">Side</label>
-                    <div class="raport__input">
-                        <UploadImg
-                            @change="files.side = $event"
-                            :fileName="files.side ? files.side.name : ''"
-                        />
-                    </div>
-                </li>
-                <template v-if="userRaports.length === 0">
-                    <li class="raport__listItem--goal">
-                        <RadioButtons
-                            label="Twój cel"
-                            v-model="goal"
-                            :items="goalItems"
-                            name="goal"
-                        />
+                    <li class="raport__listItem">
+                        <label class="raport__label" for="front">Przód</label
+                        ><ValidationProvider
+                            name="Przód"
+                            rules="required"
+                            class="validationProvider"
+                            v-slot="{ errors }"
+                        >
+                            <div
+                                class="raport__input"
+                                :class="errors[0] ? 'raport__input--error' : ''"
+                            >
+                                <UploadImg
+                                    @change="files.front = $event"
+                                    :fileName="
+                                        files.front ? files.front.name : ''
+                                    "
+                                    field="Przód"
+                                    v-model="files.front"
+                                />
+                                <p class="error error--file">
+                                    {{ errors[0] }}
+                                </p>
+                            </div>
+                        </ValidationProvider>
                     </li>
-                    <li class="raport__listItem--goal">
-                        <RadioButtons
-                            label="Twoja aktywność"
-                            v-model="activity"
-                            :items="activityItems"
-                            name="activity"
-                        />
+                    <li class="raport__listItem">
+                        <label class="raport__label" for="back">Tył</label
+                        ><ValidationProvider
+                            name="Tył"
+                            rules="required"
+                            class="validationProvider"
+                            v-slot="{ errors }"
+                        >
+                            <div
+                                class="raport__input"
+                                :class="errors[0] ? 'raport__input--error' : ''"
+                            >
+                                <UploadImg
+                                    @change="files.back = $event"
+                                    :fileName="
+                                        files.back ? files.back.name : ''
+                                    "
+                                    field="Tył"
+                                    v-model="files.back"
+                                />
+                                <p class="error error--file">
+                                    {{ errors[0] }}
+                                </p>
+                            </div>
+                        </ValidationProvider>
                     </li>
-                    <li class="raport__listItem--goal">
-                        <RadioButtons
-                            label="Częstotliwość"
-                            v-model="quantity"
-                            :items="quantityItems"
-                            name="quantity"
-                        />
+                    <li class="raport__listItem">
+                        <label class="raport__label" for="side">Bok</label
+                        ><ValidationProvider
+                            name="Bok"
+                            rules="required"
+                            class="validationProvider"
+                            v-slot="{ errors }"
+                        >
+                            <div
+                                class="raport__input"
+                                :class="errors[0] ? 'raport__input--error' : ''"
+                            >
+                                <UploadImg
+                                    @change="files.side = $event"
+                                    :fileName="
+                                        files.side ? files.side.name : ''
+                                    "
+                                    field="Bok"
+                                    v-model="files.side"
+                                />
+                                <p class="error error--file">
+                                    {{ errors[0] }}
+                                </p>
+                            </div>
+                        </ValidationProvider>
                     </li>
-                    <li class="raport__listItem--goal">
-                        <RadioButtons
-                            label="Długość"
-                            v-model="workoutTime"
-                            :items="workoutTimeItems"
-                            name="workoutTime"
+                    <template v-if="userRaports.length === 0">
+                        <li class="raport__listItem--goal">
+                            <ValidationProvider
+                                name="Twój cel"
+                                rules="required"
+                                class="validationProvider"
+                                v-slot="{ errors }"
+                            >
+                                <RadioButtons
+                                    label="Twój cel"
+                                    v-model="goal"
+                                    :items="goalItems"
+                                    name="goal"
+                                    :errors="errors[0] ? true : false"
+                                />
+                                <p class="error">
+                                    {{ errors[0] }}
+                                </p>
+                            </ValidationProvider>
+                        </li>
+                        <li class="raport__listItem--goal">
+                            <ValidationProvider
+                                name="Twója aktywność"
+                                rules="required"
+                                class="validationProvider"
+                                v-slot="{ errors }"
+                            >
+                                <RadioButtons
+                                    label="Twoja aktywność"
+                                    v-model="activity"
+                                    :items="activityItems"
+                                    name="activity"
+                                    :errors="errors[0] ? true : false"
+                                />
+                                <p class="error">
+                                    {{ errors[0] }}
+                                </p>
+                            </ValidationProvider>
+                        </li>
+                        <li class="raport__listItem--goal">
+                            <ValidationProvider
+                                name="Częstotliwość"
+                                rules="required"
+                                class="validationProvider"
+                                v-slot="{ errors }"
+                            >
+                                <RadioButtons
+                                    label="Częstotliwość"
+                                    v-model="quantity"
+                                    :items="quantityItems"
+                                    name="quantity"
+                                    :errors="errors[0] ? true : false"
+                                />
+                                <p class="error">
+                                    {{ errors[0] }}
+                                </p>
+                            </ValidationProvider>
+                        </li>
+                        <li class="raport__listItem--goal">
+                            <ValidationProvider
+                                name="Długość"
+                                rules="required"
+                                class="validationProvider"
+                                v-slot="{ errors }"
+                            >
+                                <RadioButtons
+                                    label="Długość"
+                                    v-model="workoutTime"
+                                    :items="workoutTimeItems"
+                                    name="workoutTime"
+                                    :errors="errors[0] ? true : false"
+                                />
+                                <p class="error">
+                                    {{ errors[0] }}
+                                </p>
+                            </ValidationProvider>
+                        </li>
+                    </template>
+                    <template v-if="userRaports.length">
+                        <label
+                            for="changes"
+                            class="raport__label raport__label--additional"
+                            >Nie pasuję Ci konkretne ćwiczenie? Chcesz zkrócić
+                            lub wydłuyć swoje treningi? Napisz tutaj!</label
+                        >
+                        <textarea
+                            name="changes"
+                            id="changes"
+                            type="text"
+                            v-model="changes"
                         />
-                    </li>
-                </template>
-                <template v-if="userRaports.length">
-                    <textarea
-                        name="changes"
-                        id="changes"
-                        type="text"
-                        v-model="changes"
-                    />
-                    <label for="changes">Co Ci nie pasuję?!</label>
-                </template>
-            </ul>
-            <Btn type="submit" text="Add your data" :full="true" class="btn" />
-        </form>
+                    </template>
+                </ul>
+                <!-- <p class="error" v-if="errors.length">
+                {{ errors }}
+            </p> -->
+                <Btn
+                    type="submit"
+                    text="Add your data"
+                    :full="true"
+                    class="btn"
+                />
+                <!-- </ValidationProvider> -->
+            </form>
+        </ValidationObserver>
     </div>
 </template>
 <script>
@@ -154,6 +334,7 @@ import firebase from 'firebase';
 import Btn from '@/components/Btn';
 import UploadImg from '@/components/UploadImg';
 import RadioButtons from '@/components/RadioButtons';
+import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import {
     goalItems,
     activityItems,
@@ -168,6 +349,8 @@ export default {
         Btn,
         UploadImg,
         RadioButtons,
+        ValidationProvider,
+        ValidationObserver,
     },
     data() {
         return {
@@ -213,7 +396,24 @@ export default {
                 backFileName: this.files.back?.name ?? null,
                 sideFileName: this.files.side?.name ?? null,
                 changes: this.changes,
+                needRaport: false,
             };
+
+            // if (
+            //     !this.weight ||
+            //     !this.height ||
+            //     !this.waist ||
+            //     !this.chest ||
+            //     !this.thigh ||
+            //     !this.biceps ||
+            //     !this.goal ||
+            //     !this.activity ||
+            //     !this.quantity ||
+            //     !this.workoutTime
+            // ) {
+            //     this.errors.push('Uzupełnij wymagane pola!');
+            //     return;
+            // }
 
             const reportResponse = await db
                 .collection(`users/${this.authUid}/raports`)
@@ -294,33 +494,23 @@ export default {
         width: 80%;
         max-width: 600px;
     }
-    // &__sublist {
-    //     display: flex;
-    //     justify-content: space-around;
-    //     flex-wrap: wrap;
-    //     @media screen and (max-width: 1024px) {
-    //         justify-content: center;
-    //         align-items: center;
-    //         flex-direction: column;
-    //     }
-    // }
-    // &__subtitle {
-    //     font-size: 2rem;
-    //     font-weight: 700;
-    //     margin-bottom: 20px;
-    //     position: relative;
-    //     text-align: left;
-    //     &:before {
-    //         content: '';
-    //         position: absolute;
-    //         top: 50%;
-    //         left: 10rem;
-    //         right: 0;
-    //         height: 0.01rem;
-    //         background-color: #010101;
-    //         transform: translateY(-50%);
-    //     }
-    // }
+    &__subtitle {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        position: relative;
+        text-align: left;
+        &:before {
+            content: '';
+            position: absolute;
+            top: 88%;
+            left: 0;
+            right: 0;
+            height: 0.01rem;
+            background-color: #010101;
+            transform: translateY(-50%);
+        }
+    }
     &__listItem {
         display: flex;
         justify-content: space-between;
@@ -343,6 +533,11 @@ export default {
         font-size: 1.6rem;
         // width: 40%;
         // text-align: left;
+        &--additional {
+            display: block;
+            margin: 4rem 0 1rem;
+            text-align: center;
+        }
     }
     &__input,
     &:-webkit-autofill,
@@ -356,7 +551,7 @@ export default {
         font-size: 1.4rem;
         text-align: right;
         font-weight: 700;
-        width: 65%;
+        width: 100%;
         min-height: 100%;
         margin: 0 0 1.6rem;
         border-radius: 0.8rem;
@@ -366,61 +561,37 @@ export default {
         @media (min-width: 1024px) {
             margin: 0;
         }
-        // [type='file'] {
-        //     height: 100%;
-        //     overflow: hidden;
-        //     width: 100%;
-        //     opacity: 0;
-        // }
     }
-    // &__UploadIcon {
-    //     position: absolute;
-    //     top: 40%;
-    //     left: 50%;
-    //     width: 2rem;
-    //     height: 1rem;
-    //     transform: translate(-50%, -50%);
-    //     z-index: -1;
-    // }
-    // input[type='radio'] {
-    //     /* Add if not using autoprefixer */
-    //     -webkit-appearance: none;
-    //     /* Remove most all native input styles */
-    //     appearance: none;
-    //     /* For iOS < 15 */
-    //     background-color: transparent;
-    //     /* Not removed via appearance */
-    //     margin: 1rem auto;
-
-    //     font: inherit;
-    //     color: #ffba15;
-    //     width: 1.15em;
-    //     height: 1.15em;
-    //     border: 0.15em solid #ffba15;
-    //     border-radius: 50%;
-    //     transform: translateY(-0.075em);
-    //     display: grid;
-    //     place-content: center;
-    // }
-
-    // input[type='radio']::before {
-    //     content: '';
-    //     width: 0.65em;
-    //     height: 0.65em;
-    //     border-radius: 50%;
-    //     transform: scale(0);
-    //     transition: 120ms transform ease-in-out;
-    //     box-shadow: inset 1em 1em #ffba15;
-    //     /* Windows High Contrast Mode */
-    //     background-color: #ffba15;
-    // }
-
-    // input[type='radio']:checked::before {
-    //     transform: scale(1);
-    // }
+    &__input {
+        &--error {
+            border: 1px solid red;
+        }
+    }
+    textarea {
+        width: 100%;
+        height: 8rem;
+        border-radius: 0.8rem;
+        background-color: #f1f1f1;
+        border: 1px solid transparent;
+        padding: 0.8rem;
+    }
+    .error {
+        font-size: 1rem;
+        font-weight: 300;
+        color: red;
+        text-align: right;
+        &--file {
+            position: absolute;
+            right: 0;
+            padding: 0.5rem 0;
+        }
+    }
 }
 .btn {
     display: block;
     margin: 2rem auto;
+}
+.validationProvider {
+    width: 65%;
 }
 </style>

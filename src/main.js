@@ -4,7 +4,14 @@ import router from './router';
 import firebase from 'firebase/app';
 import { firestorePlugin } from 'vuefire';
 import store from '@/store/index';
-// import './assets/main.css';
+import * as rules from 'vee-validate/dist/rules';
+import { extend } from 'vee-validate';
+import { localize } from 'vee-validate';
+
+import pl from 'vee-validate/dist/locale/pl.json';
+
+// Install and Activate the Arabic locale.
+localize('pl', pl);
 
 Vue.use(firestorePlugin);
 
@@ -19,11 +26,15 @@ var firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+Object.keys(rules).forEach(rule => {
+    extend(rule, rules[rule]);
+});
 
 export const db = firebase.firestore();
 
 new Vue({
     router,
     store,
+    // VeeValidate,
     render: h => h(App),
 }).$mount('#app');

@@ -1,11 +1,7 @@
 <template>
     <div class="panel">
         <h2 class="panel__title">Panel</h2>
-        <!-- <p class="panel__text">
-            This page is your panel
-        </p> -->
         <UserData v-if="authUid" :authUid="authUid" />
-
         <UserRaports v-if="authUid" :authUid="authUid" />
     </div>
 </template>

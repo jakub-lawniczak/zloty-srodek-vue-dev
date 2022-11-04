@@ -3,26 +3,23 @@
         <input
             class="raport__input"
             type="file"
-            placeholder="front"
             @change="$emit('change', $event.target.files[0])"
             id="front"
         />
         <div class="raport__UploadIcon" v-if="!fileName">
             <UploadIcon />
         </div>
-        <span v-else>{{ fileName }}</span>
+        <span v-else class="raport__addedFileName">{{ fileName }}</span>
     </div>
 </template>
 <script>
-// import firebase from 'firebase';
-
 import UploadIcon from '@/components/UploadIcon';
 export default {
     name: 'UploadImg',
     components: {
         UploadIcon,
     },
-    props: ['fileName', 'userUid'],
+    props: ['fileName', 'userUid', 'field'],
     data() {
         return {
             uploadValue: 0,
@@ -70,7 +67,7 @@ export default {
         font-size: 1.4rem;
         text-align: right;
         font-weight: 700;
-        width: 65%;
+        width: 100%;
         min-height: 100%;
         margin: 0 0 1.6rem;
         border-radius: 0.8rem;
@@ -97,5 +94,20 @@ export default {
         transform: translate(-50%, -50%);
         z-index: -1;
     }
+    &__addedFileName {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+.error {
+    position: absolute;
+    top: 105%;
+    right: 0;
+    font-size: 1rem;
+    font-weight: 300;
+    color: red;
+    text-align: right;
 }
 </style>

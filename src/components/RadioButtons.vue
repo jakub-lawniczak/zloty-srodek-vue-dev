@@ -4,7 +4,10 @@
             {{ label }}
         </p>
         <div class="raport__listItem--goal">
-            <ul class="raport__sublist">
+            <ul
+                class="raport__sublist"
+                :class="errors ? 'raport__sublist--error' : ''"
+            >
                 <li
                     class="raport__listItem raport__listItem--radio"
                     v-for="item in items"
@@ -33,6 +36,7 @@ export default {
         value: { type: String, required: false },
         items: { type: Array, required: true },
         name: { type: String, required: true },
+        errors: { type: Boolean, defalut: false },
     },
 };
 </script>
@@ -42,10 +46,15 @@ export default {
         display: flex;
         justify-content: space-around;
         flex-wrap: wrap;
+        padding: 0.5rem;
         @media screen and (max-width: 1024px) {
             justify-content: center;
             align-items: center;
             flex-direction: column;
+        }
+        &--error {
+            border: 1px solid red;
+            border-radius: 0.8rem;
         }
     }
     &__subtitle {
@@ -57,8 +66,8 @@ export default {
         &:before {
             content: '';
             position: absolute;
-            top: 50%;
-            left: 10rem;
+            top: 88%;
+            left: 0;
             right: 0;
             height: 0.01rem;
             background-color: #010101;

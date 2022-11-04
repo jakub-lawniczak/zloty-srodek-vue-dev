@@ -6,10 +6,20 @@
                 <Btn text="Raport" :full="false"
             /></router-link>
         </h3>
-        <ul v-if="userRaports.length">
-            <li>activity : {{ userRaports[0].data.activity }}</li>
+        <ul v-if="userRaports.length" class="raport__mainData">
+            <li>
+                twoja codzinna aktywność:
+                <span class="value">{{ userRaports[0].data.activity }}</span>
+            </li>
+            <li>
+                ilość treningów w tygodniu:
+                <span class="value">{{ userRaports[0].data.quantity }}</span>
+            </li>
+            <li>
+                czas treningu:
+                <span class="value">{{ userRaports[0].data.workoutTime }}</span>
+            </li>
         </ul>
-        {{ userRaports[0] }}
         <UserRaportList
             v-if="userRaports.length > 1"
             :userData="userRaports[userRaports.length - 1].data"
@@ -69,6 +79,18 @@ export default {
         margin-top: 1rem;
         text-decoration: none;
         font-weight: 600;
+    }
+    &__mainData {
+        font-size: 1.6rem;
+        li {
+            display: block;
+            margin-bottom: 0.8rem;
+        }
+        .value {
+            display: inline-block;
+            margin-left: 0.8rem;
+            font-weight: 700;
+        }
     }
 }
 </style>

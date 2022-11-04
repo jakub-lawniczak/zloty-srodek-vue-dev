@@ -68,6 +68,15 @@ import { db } from '../main';
 import firebase from 'firebase';
 import Btn from '@/components/Btn';
 
+var actionCodeSettings = {
+    // URL you want to redirect back to. The domain (www.example.com) for this
+    // URL must be in the authorized domains list in the Firebase Console.
+    url: 'http://localhost:8080/confirmation',
+    // This must be true.
+    handleCodeInApp: true,
+    // dynamicLinkDomain: 'example.page.link',
+};
+
 export default {
     name: 'Register',
     components: {
@@ -98,7 +107,27 @@ export default {
                             email: this.email,
                         })
                         .then(() => {
-                            this.$router.push('/first-register');
+                            // this.$router.push('/first-register');
+                            firebase
+                                .auth()
+                                .sendSignInLinkToEmail(
+                                    this.email,
+                                    actionCodeSettings
+                                )
+                                .then(() => {
+                                    // The link was successfully sent. Inform the user.
+                                    // Save the email locally so you don't need to ask the user for it again
+                                    // if they open the link on the same device.
+                                    window.localStorage.setItem(
+                                        'emailForSignIn',
+                                        this.email
+                                    );
+                                    // ...
+                                    console.log('email send to ' + this.email);
+                                })
+                                .catch(error => {
+                                    console.log(error);
+                                });
                             console.log('added to db');
                         });
                     alert('Successfully registered! Please login.');

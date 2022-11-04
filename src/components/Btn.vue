@@ -1,5 +1,5 @@
 <template>
-    <button class="btn" :class="full ? 'btn--full' : ''">
+    <button class="btn" :type="type" :class="full ? 'btn--full' : ''">
         {{ text }}
     </button>
 </template>
@@ -14,6 +14,10 @@ export default {
         full: {
             type: Boolean,
             default: false,
+        },
+        type: {
+            type: String,
+            default: '',
         },
     },
 };

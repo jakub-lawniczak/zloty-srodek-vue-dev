@@ -49,6 +49,16 @@ export default {
                 });
         },
     },
+    computed: {
+        ifAuth() {
+            return this.$store.getters.checkAuth;
+        },
+    },
+    mounted() {
+        if (this.ifAuth) {
+            window.location.href = 'panel';
+        }
+    },
 };
 </script>
 <style lang="scss" scoped>
