@@ -2,7 +2,7 @@
     <div>
         <ul class="usersList">
             <li v-for="user in users" :key="user.uid" class="usersList__item">
-                <router-link :to="'/user/:id'">
+                <router-link :to="'/user/' + user.uid">
                     {{ user.data.firstName }}
                     {{ user.data.lastName }}
                 </router-link>

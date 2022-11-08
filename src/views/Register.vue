@@ -1,71 +1,148 @@
 <template>
     <div class="register">
         <h2 class="register__title">Register</h2>
-        <form class="register__form" @submit.prevent="register">
-            <ul class="register__inputList">
-                <li class="register__listItem">
-                    <label class="register__label" for="fullName">Imię</label>
-                    <input
-                        class="register__input"
-                        type="text"
-                        placeholder="Imię"
-                        v-model="firstName"
-                        id="fullName"
-                    />
-                </li>
+        <ValidationObserver v-slot="{ handleSubmit }">
+            <form
+                class="register__form"
+                @submit.prevent="handleSubmit(register)"
+            >
+                <ul class="register__inputList">
+                    <li class="register__listItem">
+                        <label class="register__label" for="fullName"
+                            >Imię</label
+                        >
+                        <ValidationProvider
+                            rules="required"
+                            v-slot="{ errors }"
+                            name="Imię"
+                        >
+                            <input
+                                class="register__input"
+                                type="text"
+                                placeholder="Imię"
+                                v-model="firstName"
+                                id="fullName"
+                                :class="
+                                    errors[0] ? 'register__input--error' : ''
+                                "
+                            />
+                            <p class="error">
+                                {{ errors[0] }}
+                            </p>
+                        </ValidationProvider>
+                    </li>
 
-                <li class="register__listItem">
-                    <label class="register__label" for="lastName"
-                        >Nazwisko</label
-                    >
-                    <input
-                        class="register__input"
-                        type="text"
-                        placeholder="Nazwisko"
-                        v-model="lastName"
-                        id="lastName"
-                    />
-                </li>
-                <li class="register__listItem">
-                    <label class="register__label" for="birthDate"
-                        >Data urodzenia</label
-                    >
-                    <input
-                        class="register__input"
-                        type="date"
-                        placeholder="data urodzenia"
-                        v-model="birthDate"
-                        id="birthDate"
-                    />
-                </li>
-                <li class="register__listItem">
-                    <label class="register__label" for="email"
-                        >Adres e-mail</label
-                    >
-                    <input
-                        class="register__input"
-                        type="email"
-                        placeholder="Email address..."
-                        v-model="email"
-                    />
-                </li>
-                <li class="register__listItem">
-                    <label class="register__label" for="email">Hasło</label>
-                    <input
-                        class="register__input"
-                        type="password"
-                        placeholder="Create your password"
-                        v-model="password"
-                    />
-                </li>
-            </ul>
-            <Btn type="submit" text="Register" class="x-center" :full="true" />
-        </form>
+                    <li class="register__listItem">
+                        <label class="register__label" for="lastName"
+                            >Nazwisko</label
+                        >
+
+                        <ValidationProvider
+                            rules="required"
+                            v-slot="{ errors }"
+                            name="Nazwisko"
+                        >
+                            <input
+                                class="register__input"
+                                type="text"
+                                placeholder="Nazwisko"
+                                v-model="lastName"
+                                id="lastName"
+                                :class="
+                                    errors[0] ? 'register__input--error' : ''
+                                "
+                            />
+
+                            <p class="error">
+                                {{ errors[0] }}
+                            </p>
+                        </ValidationProvider>
+                    </li>
+                    <li class="register__listItem">
+                        <label class="register__label" for="birthDate"
+                            >Data urodzenia</label
+                        >
+                        <ValidationProvider
+                            rules="required"
+                            v-slot="{ errors }"
+                            name="Data urodzenia"
+                        >
+                            <input
+                                class="register__input"
+                                type="date"
+                                placeholder="data urodzenia"
+                                v-model="birthDate"
+                                id="birthDate"
+                                :class="
+                                    errors[0] ? 'register__input--error' : ''
+                                "
+                            />
+
+                            <p class="error">
+                                {{ errors[0] }}
+                            </p>
+                        </ValidationProvider>
+                    </li>
+                    <li class="register__listItem">
+                        <label class="register__label" for="email"
+                            >Adres e-mail</label
+                        >
+                        <ValidationProvider
+                            rules="required|email"
+                            v-slot="{ errors }"
+                            name="E-mail"
+                        >
+                            <input
+                                class="register__input"
+                                type="email"
+                                placeholder="Email address..."
+                                v-model="email"
+                                :class="
+                                    errors[0] ? 'register__input--error' : ''
+                                "
+                            />
+                            <p class="error">
+                                {{ errors[0] }}
+                            </p>
+                        </ValidationProvider>
+                    </li>
+                    <li class="register__listItem">
+                        <label class="register__label" for="email">Hasło</label>
+
+                        <ValidationProvider
+                            rules="required|lengh:8"
+                            v-slot="{ errors }"
+                            name="Hasło"
+                        >
+                            <input
+                                class="register__input"
+                                type="password"
+                                placeholder="Create your password"
+                                v-model="password"
+                                :class="
+                                    errors[0] ? 'register__input--error' : ''
+                                "
+                            />
+                            <p class="error">
+                                {{ errors[0] }}
+                            </p>
+                        </ValidationProvider>
+                    </li>
+                </ul>
+                <Btn
+                    type="submit"
+                    text="Register"
+                    class="x-center"
+                    :full="true"
+                />
+            </form>
+        </ValidationObserver>
     </div>
 </template>
 <script>
 import { db } from '../main';
 import firebase from 'firebase';
+import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import Btn from '@/components/Btn';
 
 var actionCodeSettings = {
@@ -81,6 +158,8 @@ export default {
     name: 'Register',
     components: {
         Btn,
+        ValidationProvider,
+        ValidationObserver,
     },
     data() {
         return {
@@ -174,10 +253,6 @@ export default {
         font-size: 1.2rem;
         margin-bottom: 0.45rem;
     }
-    &__input {
-        width: 100%;
-        margin: 0;
-    }
     &__input,
     &:-webkit-autofill,
     &:-webkit-autofill:hover,
@@ -192,9 +267,22 @@ export default {
         margin: 0 auto 1.6rem;
         border-radius: 0.8rem;
     }
+    &__input {
+        width: 100%;
+        margin: 0;
+        &--error {
+            border: 1px solid red;
+        }
+    }
     .x-center {
         display: block;
         margin: 2rem auto 0;
+    }
+    .error {
+        font-size: 1rem;
+        font-weight: 300;
+        color: red;
+        text-align: right;
     }
 }
 </style>

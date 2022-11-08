@@ -5,7 +5,7 @@ import Panel from '../views/Panel.vue';
 import Register from '../views/Register.vue';
 import Confirmation from '../views/Confirmation.vue';
 import Admin from '../views/Admin.vue';
-import User from '../views/_user/id.vue';
+import User from '../views/_user/user.vue';
 import store from '../store';
 
 Vue.use(VueRouter);
@@ -49,7 +49,7 @@ const routes = [
     },
     {
         name: 'User',
-        path: '/user/:uid',
+        path: '/user/:id',
         component: User,
     },
 ];
