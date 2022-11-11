@@ -4,7 +4,13 @@
         <router-link v-if="!ifAuth" to="/register">Register</router-link>
         <router-link v-if="ifAuth" to="/panel">Panel</router-link>
         <router-link v-if="ifAuth" to="/raport">Raport</router-link>
-        <Btn v-if="ifAuth" @click.native="logout" text="Logout" :full="true" />
+        <Btn
+            v-if="ifAuth"
+            @click.native="logout"
+            text="Logout"
+            :full="true"
+            class="nav__logout"
+        />
     </div>
 </template>
 <script>
@@ -56,6 +62,9 @@ export default {
 
     a.router-link-exact-active {
         color: #ffba15;
+    }
+    &__logout {
+        margin-left: auto;
     }
 }
 </style>

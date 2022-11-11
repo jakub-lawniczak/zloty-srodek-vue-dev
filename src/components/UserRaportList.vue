@@ -32,33 +32,36 @@
             <p class="raport__value">{{ userData.biceps }} cm</p>
         </li>
         <p class="raport__subtitle">Zdjęcia</p>
-
-        <li class="raport__listItem raport__listItem--image">
-            <label class="raport__label" for="front">Front</label>
-            <PreviewImage
-                :path="
-                    `/${authUid}/raports/${raportUid}/front/${userData.frontFileName}`
-                "
-                v-if="userData.frontFileName"
-            />
-        </li>
-        <li class="raport__listItem raport__listItem--image">
-            <label class="raport__label" for="front">Back</label>
-            <PreviewImage
-                :path="
-                    `/${authUid}/raports/${raportUid}/back/${userData.backFileName}`
-                "
-                v-if="userData.backFileName"
-            />
-        </li>
-        <li class="raport__listItem raport__listItem--image">
-            <label class="raport__label" for="front">Side</label>
-            <PreviewImage
-                :path="
-                    `/${authUid}/raports/${raportUid}/side/${userData.sideFileName}`
-                "
-                v-if="userData.sideFileName"
-            />
+        <li class="raport__listItem">
+            <ul class="raport__sublist">
+                <li class="raport__listItem raport__listItem--image">
+                    <label class="raport__label" for="front">Front</label>
+                    <PreviewImage
+                        :path="
+                            `/${authUid}/raports/${raportUid}/front/${userData.frontFileName}`
+                        "
+                        v-if="userData.frontFileName"
+                    />
+                </li>
+                <li class="raport__listItem raport__listItem--image">
+                    <label class="raport__label" for="front">Back</label>
+                    <PreviewImage
+                        :path="
+                            `/${authUid}/raports/${raportUid}/back/${userData.backFileName}`
+                        "
+                        v-if="userData.backFileName"
+                    />
+                </li>
+                <li class="raport__listItem raport__listItem--image">
+                    <label class="raport__label" for="front">Side</label>
+                    <PreviewImage
+                        :path="
+                            `/${authUid}/raports/${raportUid}/side/${userData.sideFileName}`
+                        "
+                        v-if="userData.sideFileName"
+                    />
+                </li>
+            </ul>
         </li>
     </ul>
 </template>
@@ -99,10 +102,6 @@ export default {
             font-weight: 600;
         }
     }
-    // &__form {
-    //     width: 80%;
-    //     max-width: 600px;
-    // }
     &__subtitle {
         font-size: 2rem;
         font-weight: 700;
@@ -120,6 +119,15 @@ export default {
             transform: translateY(-50%);
         }
     }
+    &__sublist {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+        @media screen and (max-width: 1024px) {
+            flex-direction: column;
+        }
+    }
     &__listItem {
         display: flex;
         justify-content: space-between;
@@ -132,31 +140,10 @@ export default {
     }
     &__label {
         font-size: 1.6rem;
-        // width: 40%;
-        // text-align: left;
     }
     &__value {
         font-size: 1.6rem;
         font-weight: 700;
     }
-    // &__input,
-    // &:-webkit-autofill,
-    // &:-webkit-autofill:hover,
-    // &:-webkit-autofill:focus {
-    //     display: block;
-    //     border: 0;
-    //     outline: none;
-    //     background-color: #f1f1f1;
-    //     padding: 0.5rem 1rem;
-    //     font-size: 1.4rem;
-    //     width: 55%;
-    //     min-height: 100%;
-    //     margin: 0 auto 1.6rem;
-    //     border-radius: 0.8rem;
-
-    //     @media (min-width: 1024px) {
-    //         margin: 0;
-    //     }
-    // }
 }
 </style>

@@ -36,27 +36,33 @@
                             </p>
                         </ValidationProvider>
                     </li>
-                    <li class="raport__listItem">
-                        <label class="raport__label" for="height">Wzrost</label>
-                        <ValidationProvider
-                            name="Wzrost"
-                            rules="required"
-                            class="validationProvider"
-                            v-slot="{ errors }"
-                        >
-                            <input
-                                class="raport__input"
-                                type="number"
-                                placeholder="wzrost"
-                                v-model="height"
-                                id="height"
-                                :class="errors[0] ? 'raport__input--error' : ''"
-                            />
-                            <p class="error">
-                                {{ errors[0] }}
-                            </p>
-                        </ValidationProvider>
-                    </li>
+                    <template v-if="userRaports.length === 0">
+                        <li class="raport__listItem">
+                            <label class="raport__label" for="height"
+                                >Wzrost</label
+                            >
+                            <ValidationProvider
+                                name="Wzrost"
+                                rules="required"
+                                class="validationProvider"
+                                v-slot="{ errors }"
+                            >
+                                <input
+                                    class="raport__input"
+                                    type="number"
+                                    placeholder="wzrost"
+                                    v-model="height"
+                                    id="height"
+                                    :class="
+                                        errors[0] ? 'raport__input--error' : ''
+                                    "
+                                />
+                                <p class="error">
+                                    {{ errors[0] }}
+                                </p>
+                            </ValidationProvider>
+                        </li>
+                    </template>
                     <li class="raport__listItem">
                         <label class="raport__label" for="waist">Talia</label>
                         <ValidationProvider
@@ -493,6 +499,9 @@ export default {
     &__form {
         width: 80%;
         max-width: 600px;
+        @media screen and (max-width: 1024px) {
+            width: 100%;
+        }
     }
     &__subtitle {
         font-size: 2rem;

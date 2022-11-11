@@ -1,10 +1,32 @@
 <template>
     <div class="previewImage">
-        <img :src="url" />
+        <CoolLightBox
+            :items="items"
+            :index="index"
+            @close="index = null"
+            :closeOnClickOutsideMobile="true"
+            :enableScrollLock="false"
+            :loop="false"
+        >
+        </CoolLightBox>
+
+        <div class="images-wrapper">
+            <div
+                class="image"
+                v-for="(image, imageIndex) in items"
+                :key="imageIndex"
+                @click="index = imageIndex"
+                :style="{ backgroundImage: 'url(' + image + ')' }"
+            ></div>
+        </div>
+        <!-- index: {{ index }} items: {{ items }} -->
     </div>
 </template>
 <script>
 import firebase from 'firebase';
+import CoolLightBox from 'vue-cool-lightbox';
+import 'vue-cool-lightbox/dist/vue-cool-lightbox.min.css';
+
 export default {
     props: {
         path: {
@@ -12,9 +34,15 @@ export default {
             required: true,
         },
     },
+    components: {
+        CoolLightBox,
+    },
     data() {
         return {
-            url: null,
+            url: '',
+            index: null,
+            customIndex: 0,
+            items: [],
         };
     },
     watch: {
@@ -23,6 +51,7 @@ export default {
             async handler() {
                 const ref = firebase.storage().ref(`${this.path}`);
                 this.url = await ref.getDownloadURL();
+                this.items.push(this.url);
             },
         },
     },
@@ -30,13 +59,21 @@ export default {
 </script>
 <style lang="scss" scoped>
 .previewImage {
-    width: 40rem;
+    width: 20rem;
+    height: 30rem;
     @media screen and (max-width: 1024px) {
-        width: calc(100% - 3.5rem);
+        width: 10rem;
+        height: 15rem;
     }
-    img {
-        max-width: 100%;
-        max-height: 100%;
+    .images-wrapper {
+        width: 100%;
+        height: 100%;
+    }
+    .image {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
     }
 }
 </style>
