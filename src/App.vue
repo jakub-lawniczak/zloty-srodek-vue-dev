@@ -22,12 +22,13 @@ export default {
 <style lang="scss">
 #app {
     min-height: 100vh;
-    background-color: #ffba15;
+    background-color: rgba(#e67e22, 0.5);
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     // text-align: center;
     color: #2c3e50;
+    padding-bottom: 2rem;
 }
 .container {
     background-color: #fff;
@@ -41,8 +42,4 @@ export default {
         padding: 2rem 1.75rem 1rem;
     }
 }
-
-// input {
-//     margin-right: 20px;
-// }
 </style>

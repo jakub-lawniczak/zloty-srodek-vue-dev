@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ul class="usersList">
+        <ul class="usersList" v-if="userData && userData.admin">
             <li v-for="user in users" :key="user.uid" class="usersList__item">
                 <router-link :to="'/user/' + user.uid">
                     {{ user.data.firstName }}
@@ -8,6 +8,9 @@
                 </router-link>
             </li>
         </ul>
+        <div v-else>
+            Nie masz uprawnień!
+        </div>
     </div>
 </template>
 <script>
@@ -16,6 +19,7 @@ export default {
     data() {
         return {
             users: [],
+            userData: null,
         };
     },
     mounted() {
@@ -26,6 +30,16 @@ export default {
                 data: item.data(),
             }));
         });
+        db.collection(`users/${this.authUid}/private`)
+            .doc('admin')
+            .onSnapshot(doc => {
+                this.userData = doc.data();
+            });
+    },
+    computed: {
+        authUid() {
+            return this.$store.state.auth.user.uid;
+        },
     },
 };
 </script>

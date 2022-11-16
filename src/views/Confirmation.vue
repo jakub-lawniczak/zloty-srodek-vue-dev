@@ -1,6 +1,9 @@
 <template>
     <div>
-        text
+        Dzięujemy za rejestracje i potwierdzenie maila. Mozesz dodać
+        <router-link to="/raport" class="raport__link">
+            swój pierwszy raport</router-link
+        >
     </div>
 </template>
 <script>

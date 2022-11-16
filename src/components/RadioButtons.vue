@@ -91,10 +91,10 @@ export default {
         margin: 1rem auto;
 
         font: inherit;
-        color: #ffba15;
+        color: #e67e22;
         width: 1.15em;
         height: 1.15em;
-        border: 0.15em solid #ffba15;
+        border: 0.15em solid #e67e22;
         border-radius: 50%;
         transform: translateY(-0.075em);
         display: grid;
@@ -108,9 +108,9 @@ export default {
         border-radius: 50%;
         transform: scale(0);
         transition: 120ms transform ease-in-out;
-        box-shadow: inset 1em 1em #ffba15;
+        box-shadow: inset 1em 1em #e67e22;
         /* Windows High Contrast Mode */
-        background-color: #ffba15;
+        background-color: #e67e22;
     }
 
     input[type='radio']:checked::before {

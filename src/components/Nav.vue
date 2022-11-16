@@ -1,5 +1,12 @@
 <template>
     <div id="nav" class="nav">
+        <div class="logo">
+            <img
+                src="@/assets/icons/logo-white.svg"
+                alt="logo"
+                class="logo__icon"
+            />
+        </div>
         <router-link v-if="!ifAuth" to="/">Login</router-link>
         <router-link v-if="!ifAuth" to="/register">Register</router-link>
         <router-link v-if="ifAuth" to="/panel">Panel</router-link>
@@ -47,24 +54,31 @@ export default {
 <style lang="scss" scoped>
 .nav {
     display: flex;
-    // justify-content: center;
     align-items: center;
-    padding: 2rem;
-    background-color: #fff;
+    padding: 0.5rem 2rem;
+    background-color: #121212;
 
     a {
         font-size: 1.6rem;
-        font-weight: bold;
-        color: #2c3e50;
+        font-weight: 100;
+        color: #ededed;
         text-decoration: none;
         margin: 0 1rem;
     }
 
     a.router-link-exact-active {
-        color: #ffba15;
+        color: #e67e22;
+        font-weight: 700;
     }
     &__logout {
         margin-left: auto;
     }
+}
+.logo {
+    width: 80px;
+    height: unset;
+    // &:hover {
+
+    // }
 }
 </style>

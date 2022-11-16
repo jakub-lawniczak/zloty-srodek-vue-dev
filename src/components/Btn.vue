@@ -33,15 +33,15 @@ export default {
     outline: inherit;
     font-weight: 600;
     font-size: 2rem;
-    color: #ffba15;
-    border: 1px solid #ffba15;
+    color: #e67e22;
+    border: 1px solid #e67e22;
     border-radius: 0.8rem;
     padding: 0.8446rem 2.25rem;
     letter-spacing: 0.1rem;
     // box-sizing: content-box;
     transition: all 0.3s;
     &:hover {
-        background-color: #ffba15;
+        background-color: #e67e22;
         color: #fff;
     }
 }

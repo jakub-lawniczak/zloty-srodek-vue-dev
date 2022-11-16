@@ -6,15 +6,15 @@
                 new Date(userData.date.seconds * 1000).toLocaleDateString()
             }}</span>
         </h2>
-        <p class="raport__subtitle">Wymiary</p>
+        <p class="raport__subtitle raport__subtitle--first">Wymiary</p>
         <li class="raport__listItem">
             <label class="raport__label" for="weight">Waga</label>
             <p class="raport__value">{{ userData.weight }} kg</p>
         </li>
-        <li class="raport__listItem">
+        <!-- <li class="raport__listItem">
             <label class="raport__label" for="height">Wzrost</label>
             <p class="raport__value">{{ userData.height }} cm</p>
-        </li>
+        </li> -->
         <li class="raport__listItem">
             <label class="raport__label" for="waist">Talia</label>
             <p class="raport__value">{{ userData.waist }} cm</p>
@@ -35,31 +35,31 @@
         <li class="raport__listItem">
             <ul class="raport__sublist">
                 <li class="raport__listItem raport__listItem--image">
-                    <label class="raport__label" for="front">Front</label>
                     <PreviewImage
                         :path="
                             `/${authUid}/raports/${raportUid}/front/${userData.frontFileName}`
                         "
                         v-if="userData.frontFileName"
                     />
+                    <label class="raport__label" for="front">Front</label>
                 </li>
                 <li class="raport__listItem raport__listItem--image">
-                    <label class="raport__label" for="front">Back</label>
                     <PreviewImage
                         :path="
                             `/${authUid}/raports/${raportUid}/back/${userData.backFileName}`
                         "
                         v-if="userData.backFileName"
                     />
+                    <label class="raport__label" for="front">Back</label>
                 </li>
                 <li class="raport__listItem raport__listItem--image">
-                    <label class="raport__label" for="front">Side</label>
                     <PreviewImage
                         :path="
                             `/${authUid}/raports/${raportUid}/side/${userData.sideFileName}`
                         "
                         v-if="userData.sideFileName"
                     />
+                    <label class="raport__label" for="front">Side</label>
                 </li>
             </ul>
         </li>
@@ -108,6 +108,7 @@ export default {
         margin-bottom: 20px;
         position: relative;
         text-align: left;
+        margin-top: 2rem;
         &:before {
             content: '';
             position: absolute;
@@ -117,6 +118,9 @@ export default {
             height: 0.01rem;
             background-color: #010101;
             transform: translateY(-50%);
+        }
+        &--first {
+            margin: 0;
         }
     }
     &__sublist {
@@ -140,6 +144,7 @@ export default {
     }
     &__label {
         font-size: 1.6rem;
+        margin-top: 1.5rem;
     }
     &__value {
         font-size: 1.6rem;

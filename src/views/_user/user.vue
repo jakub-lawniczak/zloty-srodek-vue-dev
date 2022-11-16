@@ -1,5 +1,6 @@
 <template>
     <div class="userData">
+        {{ userData }}
         <ul v-if="userData" class="userData__mainList">
             <li class="userData__mainListItem">
                 <h2>{{ userData.firstName }} {{ userData.lastName }}</h2>
@@ -21,6 +22,9 @@
                     czas treningu: {{ userRaports[0].data.workoutTime }}
                 </li>
             </template>
+            <button @click="needRaport">
+                Need raport{{ userData.needRaport }}
+            </button>
         </ul>
         <ul class="userData__raportList">
             <li
@@ -28,7 +32,7 @@
                 v-for="raport in userRaports"
                 :key="raport.uid"
             >
-                <p class="userData__raportDate">
+                <p class="userData__raportDate" v-if="raport.data.date">
                     Raport z dnia:
                     {{ dateFormat(raport.data.date.seconds) }}
                 </p>
@@ -39,19 +43,65 @@
                     <li>Klatka piersiowa: {{ raport.data.chest }}</li>
                     <li>Udo: {{ raport.data.thigh }}</li>
                     <li>Biceps: {{ raport.data.biceps }}</li>
-                    <li v-if="raport.data.changes.length > 0">
+                    <li
+                        v-if="
+                            raport.data.changes &&
+                                raport.data.changes.length > 0
+                        "
+                    >
                         Zmiany: {{ raport.data.changes }}
+                    </li>
+                    <li>
+                        <ul class="userData__sublist">
+                            <li class="userData__sublistItem">
+                                <PreviewImage
+                                    :path="
+                                        `/${authUid}/raports/${raport.uid}/front/${raport.data.frontFileName}`
+                                    "
+                                    v-if="raport.data.frontFileName"
+                                />
+                                <label class="userData__label" for="front"
+                                    >Front</label
+                                >
+                            </li>
+                            <li class="userData__sublistItem">
+                                <PreviewImage
+                                    :path="
+                                        `/${authUid}/raports/${raport.uid}/back/${raport.data.backFileName}`
+                                    "
+                                    v-if="raport.data.backFileName"
+                                />
+                                <label class="userData__label" for="back"
+                                    >Back</label
+                                >
+                            </li>
+                            <li class="userData__sublistItem">
+                                <PreviewImage
+                                    :path="
+                                        `/${authUid}/raports/${raport.uid}/side/${raport.data.sideFileName}`
+                                    "
+                                    v-if="raport.data.sideFileName"
+                                />
+                                <label class="userData__label" for="side"
+                                    >Side</label
+                                >
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </li>
         </ul>
-        <!-- <pre>{{ userRaports }}</pre> -->
     </div>
 </template>
 <script>
 import { db } from '../../main';
+
+import PreviewImage from '@/components/PreviewImage.vue';
 export default {
     name: 'User',
+    components: {
+        PreviewImage,
+    },
     data() {
         return {
             userData: null,
@@ -61,10 +111,16 @@ export default {
     methods: {
         dateFormat(d) {
             var raportDate = new Date(d * 1000);
-            // raportDate = raportDate.substring(4, 15);
-            // raportDate.toString('');
             raportDate = raportDate.toLocaleDateString('pl-US');
             return raportDate;
+        },
+        needRaport() {
+            db.collection(`users/`)
+                .doc(this.$route.params.id)
+                .set({
+                    ...this.userData,
+                    needRaport: !this.userData.needRaport,
+                });
         },
     },
     mounted() {
@@ -81,6 +137,7 @@ export default {
                     uid: item.id,
                     data: item.data(),
                 }));
+                console.log(this.userRaports);
             }
         );
     },
@@ -88,6 +145,11 @@ export default {
         return {
             users: db.collection('users'),
         };
+    },
+    computed: {
+        authUid() {
+            return this.$store.state.auth.user.uid;
+        },
     },
 };
 </script>
@@ -103,13 +165,26 @@ export default {
         margin-bottom: 0.5rem;
     }
     &__singleRaport {
-        background-color: #dedede;
+        background-color: rgba(#e67e22, 0.5);
         border-radius: 0.5rem;
         padding: 1rem;
         margin-top: 1rem;
     }
     &__raportDate {
         font-weight: 700;
+    }
+    &__sublist {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        margin-top: 1rem;
+    }
+    &__sublistItem {
+        text-align: center;
+    }
+    &__label {
+        display: block;
+        margin-top: 0.5rem;
     }
 }
 </style>

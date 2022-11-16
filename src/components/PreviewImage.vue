@@ -5,8 +5,9 @@
             :index="index"
             @close="index = null"
             :closeOnClickOutsideMobile="true"
-            :enableScrollLock="false"
+            :enableScrollLock="true"
             :loop="false"
+            :slideshow="false"
         >
         </CoolLightBox>
 
@@ -62,8 +63,8 @@ export default {
     width: 20rem;
     height: 30rem;
     @media screen and (max-width: 1024px) {
-        width: 10rem;
-        height: 15rem;
+        width: 15rem;
+        height: 20rem;
     }
     .images-wrapper {
         width: 100%;

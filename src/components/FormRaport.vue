@@ -84,7 +84,7 @@
                             </p>
                         </ValidationProvider>
                     </li>
-                    <li class="raport__listItem">
+                    <!-- <li class="raport__listItem">
                         <label class="raport__label" for="chest">Klatka</label>
                         <ValidationProvider
                             name="Klatka"
@@ -98,6 +98,27 @@
                                 placeholder="klatka piersiowa"
                                 v-model="chest"
                                 id="chest"
+                                :class="errors[0] ? 'raport__input--error' : ''"
+                            />
+                            <p class="error">
+                                {{ errors[0] }}
+                            </p>
+                        </ValidationProvider>
+                    </li> -->
+                    <li class="raport__listItem">
+                        <label class="raport__label" for="chest">Barki</label>
+                        <ValidationProvider
+                            name="Barki"
+                            rules="required"
+                            class="validationProvider"
+                            v-slot="{ errors }"
+                        >
+                            <input
+                                class="raport__input"
+                                type="number"
+                                placeholder="obwór w barkach"
+                                v-model="shoulders"
+                                id="shoulders"
                                 :class="errors[0] ? 'raport__input--error' : ''"
                             />
                             <p class="error">
@@ -360,11 +381,11 @@ export default {
     },
     data() {
         return {
-            users: [],
             weight: null,
             height: '',
             waist: '',
-            chest: '',
+            // chest: '',
+            shoulders: '',
             thigh: '',
             biceps: '',
             files: {
@@ -382,6 +403,7 @@ export default {
             quantityItems,
             workoutTimeItems,
             changes: '',
+            userData: null,
         };
     },
     methods: {
@@ -390,7 +412,8 @@ export default {
                 weight: this.weight,
                 height: this.height,
                 waist: this.waist,
-                chest: this.chest,
+                // chest: this.chest,
+                shoulders: this.shoulders,
                 thigh: this.thigh,
                 biceps: this.biceps,
                 goal: this.goal,
@@ -404,22 +427,6 @@ export default {
                 changes: this.changes,
                 needRaport: false,
             };
-
-            // if (
-            //     !this.weight ||
-            //     !this.height ||
-            //     !this.waist ||
-            //     !this.chest ||
-            //     !this.thigh ||
-            //     !this.biceps ||
-            //     !this.goal ||
-            //     !this.activity ||
-            //     !this.quantity ||
-            //     !this.workoutTime
-            // ) {
-            //     this.errors.push('Uzupełnij wymagane pola!');
-            //     return;
-            // }
 
             const reportResponse = await db
                 .collection(`users/${this.authUid}/raports`)
@@ -437,6 +444,7 @@ export default {
                         .put(file);
                 })
             );
+            await this.needRaport();
             alert('Your raport submitted');
             this.$router.push('/panel');
         },
@@ -466,6 +474,15 @@ export default {
                 })
             );
         },
+        needRaport() {
+            return db
+                .collection(`users/`)
+                .doc(this.authUid)
+                .set({
+                    ...this.userData,
+                    needRaport: false,
+                });
+        },
     },
     mounted() {
         db.collection(`users/${this.authUid}/raports`).onSnapshot(doc => {
@@ -475,11 +492,11 @@ export default {
                 data: item.data(),
             }));
         });
-    },
-    firestore() {
-        return {
-            users: db.collection('users'),
-        };
+        db.collection('users/')
+            .doc(this.authUid)
+            .onSnapshot(doc => {
+                this.userData = doc.data();
+            });
     },
 };
 </script>

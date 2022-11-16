@@ -110,7 +110,7 @@
                         <label class="register__label" for="email">Hasło</label>
 
                         <ValidationProvider
-                            rules="required|lengh:8"
+                            rules="required"
                             v-slot="{ errors }"
                             name="Hasło"
                         >
@@ -184,9 +184,9 @@ export default {
                             lastName: this.lastName,
                             birthDate: this.birthDate,
                             email: this.email,
+                            admin: false,
                         })
                         .then(() => {
-                            // this.$router.push('/first-register');
                             firebase
                                 .auth()
                                 .sendSignInLinkToEmail(

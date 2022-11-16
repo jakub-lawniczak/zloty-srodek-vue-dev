@@ -8,16 +8,24 @@
         </h3>
         <ul v-if="userRaports.length" class="raport__mainData">
             <li>
+                wzrost:
+                <span class="value">{{ userRaports[0].data.height }} cm</span>
+            </li>
+            <li>
                 twoja codzinna aktywność:
                 <span class="value">{{ userRaports[0].data.activity }}</span>
             </li>
             <li>
                 ilość treningów w tygodniu:
-                <span class="value">{{ userRaports[0].data.quantity }}</span>
+                <span class="value"
+                    >{{ userRaports[0].data.quantity }} dni</span
+                >
             </li>
             <li>
                 czas treningu:
-                <span class="value">{{ userRaports[0].data.workoutTime }}</span>
+                <span class="value"
+                    >{{ userRaports[0].data.workoutTime }} minut</span
+                >
             </li>
         </ul>
         <UserRaportList
@@ -58,11 +66,11 @@ export default {
             }));
         });
     },
-    firestore() {
-        return {
-            users: db.collection('users'),
-        };
-    },
+    // firestore() {
+    //     return {
+    //         users: db.collection(`users/${this.authUid}`),
+    //     };
+    // },
 };
 </script>
 
