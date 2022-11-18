@@ -1,6 +1,5 @@
 <template>
     <div class="userData">
-        {{ userData }}
         <ul v-if="userData" class="userData__mainList">
             <li class="userData__mainListItem">
                 <h2>{{ userData.firstName }} {{ userData.lastName }}</h2>
@@ -22,9 +21,15 @@
                     czas treningu: {{ userRaports[0].data.workoutTime }}
                 </li>
             </template>
-            <button @click="needRaport">
-                Need raport{{ userData.needRaport }}
-            </button>
+            <Btn
+                @click.native="needRaport"
+                :text="
+                    userData.needRaport
+                        ? 'Chcemy raport: tak'
+                        : 'Chcemy raport: nie'
+                "
+                :full="userData.needRaport"
+            />
         </ul>
         <ul class="userData__raportList">
             <li
@@ -95,12 +100,13 @@
 </template>
 <script>
 import { db } from '../../main';
-
 import PreviewImage from '@/components/PreviewImage.vue';
+import Btn from '@/components/Btn.vue';
 export default {
     name: 'User',
     components: {
         PreviewImage,
+        Btn,
     },
     data() {
         return {

@@ -9,6 +9,9 @@
             :loop="false"
             :slideshow="false"
         >
+            <template v-slot:close>
+                <div class="close"></div>
+            </template>
         </CoolLightBox>
 
         <div class="images-wrapper">
@@ -20,7 +23,6 @@
                 :style="{ backgroundImage: 'url(' + image + ')' }"
             ></div>
         </div>
-        <!-- index: {{ index }} items: {{ items }} -->
     </div>
 </template>
 <script>
@@ -76,5 +78,32 @@ export default {
         background-size: cover;
         background-repeat: no-repeat;
     }
+}
+
+.close {
+    position: absolute;
+    right: calc(50% - 16px);
+    top: calc(50% - 16px);
+    width: 32px;
+    height: 32px;
+    opacity: 0.8;
+}
+.close:hover {
+    opacity: 1;
+}
+.close:before,
+.close:after {
+    position: absolute;
+    left: 15px;
+    content: ' ';
+    height: 33px;
+    width: 2px;
+    background-color: #999;
+}
+.close:before {
+    transform: rotate(45deg);
+}
+.close:after {
+    transform: rotate(-45deg);
 }
 </style>

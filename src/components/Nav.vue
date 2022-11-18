@@ -10,7 +10,12 @@
         <router-link v-if="!ifAuth" to="/">Login</router-link>
         <router-link v-if="!ifAuth" to="/register">Register</router-link>
         <router-link v-if="ifAuth" to="/panel">Panel</router-link>
-        <router-link v-if="ifAuth" to="/raport">Raport</router-link>
+        <router-link
+            v-if="ifAuth"
+            to="/raport"
+            :class="!needRaportCheck ? 'disabled' : 'needRaport'"
+            >Raport</router-link
+        >
         <Btn
             v-if="ifAuth"
             @click.native="logout"
@@ -23,10 +28,16 @@
 <script>
 import firebase from 'firebase';
 import Btn from '@/components/Btn';
+import { db } from '../main';
 export default {
     name: 'Nav',
     components: {
         Btn,
+    },
+    data() {
+        return {
+            userData: null,
+        };
     },
     methods: {
         logout() {
@@ -44,9 +55,22 @@ export default {
                 });
         },
     },
+    mounted() {
+        db.collection('users/')
+            .doc(this.authUid)
+            .onSnapshot(doc => {
+                this.userData = doc.data();
+            });
+    },
     computed: {
         ifAuth() {
             return this.$store.getters.checkAuth;
+        },
+        authUid() {
+            return this.$store.state.auth.user.uid;
+        },
+        needRaportCheck() {
+            return this.userData?.needRaport;
         },
     },
 };
@@ -80,5 +104,48 @@ export default {
     // &:hover {
 
     // }
+}
+.disabled {
+    pointer-events: none;
+    font-weight: 500;
+    opacity: 0.5;
+}
+.needRaport {
+    animation: pulse-animation 1s infinite;
+}
+@keyframes pulse-animation {
+    0% {
+        // text-shadow: 0 0 5px #121212, 0 0 25px #121212, 0 0 50px #121212,
+        //     0 0 100px #121212;
+    }
+    // 25% {
+    //     text-shadow: 0px 0px 0.25rem #e67e22, 0px 0px 1.25rem #e67e22,
+    //         0px 0px 2.5rem #e67e22, 0 0 5rem #e67e22;
+    //     font-weight: 600;
+    //     letter-spacing: 0.025rem;
+    //     // transform: scale(1.1);
+    //     color: #e67e22;
+    // }
+    50% {
+        // text-shadow: 0px 0px 5px #e67e22, 0px 0px 25px #e67e22,
+        //     0px 0px 50px #e67e22, 0 0 100px #e67e22;
+        // font-weight: 700;
+        // letter-spacing: 0.05rem;
+        transform: scale(1.1);
+        color: #e67e22;
+    }
+    // 75% {
+    //     text-shadow: 0px 0px 0.25rem #e67e22, 0px 0px 1.25rem #e67e22,
+    //         0px 0px 2.5rem #e67e22, 0 0 5rem #e67e22;
+    //     font-weight: 600;
+    //     letter-spacing: 0.025rem;
+    //     // transform: scale(1.1);
+    //     color: #e67e22;
+    // }
+
+    100% {
+        // text-shadow: 0 0 1rem #121212, 0 0 10rem #121212, 0 0 12.5rem #121212,
+        //     0 0 15rem #121212;
+    }
 }
 </style>

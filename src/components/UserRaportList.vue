@@ -20,8 +20,8 @@
             <p class="raport__value">{{ userData.waist }} cm</p>
         </li>
         <li class="raport__listItem">
-            <label class="raport__label" for="chest">Klatka piersiowa</label>
-            <p class="raport__value">{{ userData.chest }} cm</p>
+            <label class="raport__label" for="shoulders">Obwód w barkach</label>
+            <p class="raport__value">{{ userData.shoulders }} cm</p>
         </li>
         <li class="raport__listItem">
             <label class="raport__label" for="thigh">Udo</label>
